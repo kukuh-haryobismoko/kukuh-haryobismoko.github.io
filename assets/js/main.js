@@ -6,7 +6,7 @@
 		 Preloader
 		--------------------------------------------- */	
 		preloader: function() {
-			$('.preloader').delay(1000).fadeOut('slow');
+			$('.preloader').delay(10).fadeOut('slow');
 			setTimeout(function() {
 			    //After 2s, the no-scroll class of the body will be removed
 			    $('body').removeClass('no-scroll');
