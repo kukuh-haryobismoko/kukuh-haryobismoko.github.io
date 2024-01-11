@@ -6,11 +6,11 @@
 		 Preloader
 		--------------------------------------------- */	
 		preloader: function() {
-			$('.preloader').delay(10).fadeOut('slow');
+			$('.preloader').delay(1).fadeOut('slow');
 			setTimeout(function() {
 			    //After 2s, the no-scroll class of the body will be removed
 			    $('body').removeClass('no-scroll');
-			}, 10); //Here you can change preloader time
+			}, 1); //Here you can change preloader time
 		},	
 		/* ---------------------------------------------
 		 One Page Menu Script
