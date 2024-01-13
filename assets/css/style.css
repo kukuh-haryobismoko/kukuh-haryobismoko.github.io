@@ -1712,6 +1712,13 @@ img {
   background: #e12d1e;
 }
 
+.portfolio-divider {
+  width: 100%;
+  height: 2px;
+  background: #e12d1e;
+}
+
+
 /*--------------------------------------------------------------
 # Radius Element
 --------------------------------------------------------------*/
@@ -3991,7 +3998,17 @@ a:hover, a:active {
   -webkit-transform: matrix3d(1.5, 0, 0, 0, 0, 1.5, 0, 0, 0, 0, 1, 0, 0, 0, 0.001, 1.0);
   transform: matrix3d(1.5, 0, 0, 0, 0, 1.5, 0, 0, 0, 0, 1, 0, 0, 0, 0.001, 1.0);
 }
-
+/* 
+.portfolio-item{
+  border-bottom-style: solid ;
+  border-color: darkgray;
+  border-width: 2px ;
+  margin-bottom: 30px;
+  color: white;
+} */
+.portfolio-item p{
+  color:#ddd;
+}
 /*--------------------------------------------------------------
 # Portfolio Single
 --------------------------------------------------------------*/
