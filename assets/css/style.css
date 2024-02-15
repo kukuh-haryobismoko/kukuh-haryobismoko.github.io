@@ -3188,6 +3188,47 @@ a:hover, a:active {
     display: none;
   }
 }
+.tagline {
+  color: white;
+  font-size: 1.8em;
+  font-weight: 600;
+}
+.tagline-footer {
+  color: gray;
+  font-size: 1em;
+  font-weight: 200;
+}
+.about-me {
+  color: white;
+}
+.hero-main-content {
+  text-align: justify;
+  font-family: inherit;
+  color: white;
+  font-size: 1.3em;
+  font-weight: 400;
+}
+@media only screen and (min-width: 1450px) {
+  .hero-main-content .tagline {
+    font-size: 1.5em;
+  }
+}
+@media only screen and (max-width: 767px) {
+  .hero-main-content .tagline{
+    font-size: 1.1em;
+  }
+}
+@media only screen and (max-width: 450px) {
+  .hero-main-content {
+    font-size: 10px;
+  }
+}
+@media only screen and (max-width: 767px) {
+  .hero-main-content br {
+    display: none;
+  }
+}
+
 .hero-left-block .hero-description {
   color: white;
   font-family: inherit;
@@ -3201,14 +3242,14 @@ a:hover, a:active {
   align-items: center;
 }
 .hero-left-block .hero-description .hero-devider {
-  width: 60px;
+  width: 30px;
   height: 2px;
   background: white;
-  margin: 0 15px;
+  margin: 0 5px;
 }
 @media only screen and (max-width: 600px) {
   .hero-left-block .hero-description .hero-devider {
-    width: 30px;
+    width: 15px;
   }
 }
 @media only screen and (min-width: 1551px) {
