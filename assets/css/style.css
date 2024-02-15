@@ -3199,7 +3199,7 @@ a:hover, a:active {
   font-weight: 200;
 }
 .about-me {
-  color: white;
+  color: #e12d1e;
 }
 .hero-main-content {
   text-align: justify;
@@ -3207,6 +3207,10 @@ a:hover, a:active {
   color: white;
   font-size: 1.3em;
   font-weight: 400;
+}
+.noticed {
+  color: #e12d1e;
+  font-weight: bold;
 }
 @media only screen and (min-width: 1450px) {
   .hero-main-content .tagline {
