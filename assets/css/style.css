@@ -3201,6 +3201,10 @@ a:hover, a:active {
 .about-me {
   color: #e12d1e;
 }
+.skill-header {
+  background-color: #e12d1e;
+  color: white;
+}
 .hero-main-content {
   text-align: justify;
   font-family: inherit;
