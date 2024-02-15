@@ -3228,7 +3228,7 @@ a:hover, a:active {
 }
 @media only screen and (max-width: 450px) {
   .hero-main-content {
-    font-size: 10px;
+    font-size: 15px;
   }
 }
 @media only screen and (max-width: 767px) {
