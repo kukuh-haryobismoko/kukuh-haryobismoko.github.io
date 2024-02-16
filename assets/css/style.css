@@ -3236,7 +3236,9 @@ a:hover, a:active {
     display: none;
   }
 }
-
+.fa {
+  font-size: 50px;
+}
 .hero-left-block .hero-description {
   color: white;
   font-family: inherit;
