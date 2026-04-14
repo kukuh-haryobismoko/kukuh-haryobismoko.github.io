@@ -1,1 +1,0 @@
-# kukuh-haryobismoko.github.io
