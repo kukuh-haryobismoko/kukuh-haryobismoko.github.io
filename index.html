@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -907,6 +907,20 @@ nav .container{display:flex;justify-content:space-between;align-items:center}
     .marquee span{font-size:1rem}
 }
 </style>
+<script>
+    // Set theme before first paint to avoid flash
+    (function() {
+        try {
+            var saved = localStorage.getItem('theme');
+            var overridden = localStorage.getItem('themeOverride') === 'true';
+            var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            var theme = (saved && overridden) ? saved : (prefersDark ? 'dark' : 'light');
+            document.documentElement.setAttribute('data-theme', theme);
+        } catch(e) {
+            document.documentElement.setAttribute('data-theme', 'dark');
+        }
+    })();
+</script>
 </head>
 
 <body>
@@ -1176,7 +1190,7 @@ nav .container{display:flex;justify-content:space-between;align-items:center}
 
             <div class="project-card reveal" data-category="dashboard"><div class="project-embed"><iframe src="https://docs.google.com/presentation/d/e/2PACX-1vQJg0RwX39OvIoz_3QWnzaqQF6wbPabuJAM1yHWp9NT7emfYJ3TIaPQmYQRa5WKuW9Icpx6ikt55KT0/embed?start=false&loop=false&delayms=1" loading="lazy" allowfullscreen></iframe><div class="project-embed-overlay"></div></div><div class="project-info"><div class="project-cat">Dashboard</div><h3>Loan Default Rate Prediction</h3><p>Financial data analysis and prediction model comparison to decrease default rates.</p></div></div>
 
-            <div class="project-card reveal" data-category="dashboard"><div class="project-embed"><iframe src="https://docs.google.com/presentation/d/e/2PACX-1vQqv6xTvEHouwaUNYOsGsKYEKHY_d5ha9l7GgGyvr8v0VGbqky6FBeXDZ_Xiq2Byi7ZY9G58V9l0Y-n/embed?start=false&loop=false&delayms=1" loading="lazy" allowfullscreen></iframe><div class="project-embed-overlay"></div></div><div class="project-info"><div class="project-cat">Dashboard</div><h3>Marketing Executive Market Insights</h3><p>Job market analysis to understand trends and optimize marketing executive roles.</p></div></div>
+            <!-- <div class="project-card reveal" data-category="dashboard"><div class="project-embed"><iframe src="https://docs.google.com/presentation/d/e/2PACX-1vQqv6xTvEHouwaUNYOsGsKYEKHY_d5ha9l7GgGyvr8v0VGbqky6FBeXDZ_Xiq2Byi7ZY9G58V9l0Y-n/embed?start=false&loop=false&delayms=1" loading="lazy" allowfullscreen></iframe><div class="project-embed-overlay"></div></div><div class="project-info"><div class="project-cat">Dashboard</div><h3>Marketing Executive Market Insights</h3><p>Job market analysis to understand trends and optimize marketing executive roles.</p></div></div> -->
 
             <div class="project-card reveal" data-category="dashboard"><div class="project-embed"><iframe src="https://docs.google.com/presentation/d/e/2PACX-1vR70qJ3PWt8RKUJz1D2ki85sXnboKj_r8VglAd0gIZ1wHEUiqYmJho696zVo9FEXy4GxKwmgIu8dKv4/embed?start=false&loop=false&delayms=1" loading="lazy" allowfullscreen></iframe><div class="project-embed-overlay"></div></div><div class="project-info"><div class="project-cat">Dashboard</div><h3>Netflix Content Potential</h3><p>Market analysis to optimize strategy for next potential Netflix content.</p></div></div>
 
@@ -1409,12 +1423,38 @@ nav .container{display:flex;justify-content:space-between;align-items:center}
 
     // ===== Theme toggle =====
     const themeBtn = document.getElementById('themeToggle');
+    const mq = window.matchMedia('(prefers-color-scheme: dark)');
+
+    function applyTheme(theme) {
+        document.documentElement.setAttribute('data-theme', theme);
+    }
+
+    // Determine initial theme:
+    // - If user has manually chosen one, honour it.
+    // - Otherwise, follow the device/OS preference.
     const saved = localStorage?.getItem?.('theme');
-    if (saved) document.documentElement.setAttribute('data-theme', saved);
+    const userOverride = localStorage?.getItem?.('themeOverride') === 'true';
+    if (saved && userOverride) {
+        applyTheme(saved);
+    } else {
+        applyTheme(mq.matches ? 'dark' : 'light');
+    }
+
+    // When the OS theme changes, update only if the user hasn't manually toggled.
+    mq.addEventListener('change', (e) => {
+        const overridden = localStorage?.getItem?.('themeOverride') === 'true';
+        if (!overridden) {
+            applyTheme(e.matches ? 'dark' : 'light');
+        }
+    });
+
     themeBtn.addEventListener('click', () => {
         const next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-        document.documentElement.setAttribute('data-theme', next);
-        try { localStorage.setItem('theme', next); } catch(e) {}
+        applyTheme(next);
+        try {
+            localStorage.setItem('theme', next);
+            localStorage.setItem('themeOverride', 'true');
+        } catch(e) {}
     });
 
     // ===== Nav scroll =====
