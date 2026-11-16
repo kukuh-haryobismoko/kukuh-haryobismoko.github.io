@@ -79,6 +79,8 @@ html.intro-on{overflow:hidden}
 #scC{mix-blend-mode:difference;color:#fff}
 #scC.plain{mix-blend-mode:normal;color:var(--paper)}
 .stack{position:absolute;left:8vw;top:50%;transform:translateY(-50%);font:900 clamp(40px,9.2vw,170px)/.92 var(--f-d);letter-spacing:-.045em;text-transform:uppercase}
+.stack.fig{left:50%;top:67%;transform:translate(-50%,-50%);text-align:center;white-space:nowrap}
+#chart.txt .ec{opacity:0;transition:opacity .4s}
 .stack .ln{overflow:hidden;padding-bottom:.05em}
 .stack .ln span{display:block;transform:translateY(108%);animation:rise .75s var(--ease) forwards}
 .stack.leave .ln span{animation:fall .45s cubic-bezier(.6,0,.8,.2) forwards}
@@ -350,6 +352,7 @@ html[data-theme=light] .btn.p:hover{color:var(--ink)}
   .cur,.hud.br{display:none}
   .hud,.chip,.pl small{font-size:11px}
   .stack{left:6vw;font-size:8.6vw}
+  .stack.fig{font-size:10.2vw}
   #chartWrap{left:50%;bottom:-2vh;width:124vw;height:auto;aspect-ratio:307/400}
   #chartLbl{left:50%;right:auto;top:-9%;transform:translateX(-50%)}
   .outl{font-size:min(40px,11vw)}
@@ -809,9 +812,9 @@ at(2500,()=>{gone('#scA');$('#sel').classList.remove('on');on('#scB');$('#chart'
 at(2800,()=>$$('#chart rect').forEach(r=>r.style.opacity=1));
 at(4100,()=>{$('#chart').classList.add('fill');$('#chartLbl').classList.add('off');$$('#chart rect,#chart .ec').forEach(r=>{r.style.transitionDelay='0s';if(r.tagName==='rect')r.style.opacity=0})});
 // C: name over chart (difference blend), then role, then skills
-at(4500,()=>{on('#scC');stack(['Kukuh','Haryobismoko'])});
+at(4500,()=>{on('#scC');$('#chart').classList.add('txt');stack(['Kukuh','Haryobismoko'],'fig')});
 at(5800,()=>{$('#stack').classList.add('leave')});
-at(6250,()=>stack(['Data','Analyst']));
+at(6250,()=>stack(['Data','Analyst'],'fig'));
 at(7300,()=>{$('#stack').classList.add('leave');gone('#scB')});
 at(7700,()=>{$('#scC').classList.add('plain');stack(['SQL<b>/</b>','Python','<b>&amp;</b> BI<b>.</b>'])});
 // D: cream wipe, toggle
