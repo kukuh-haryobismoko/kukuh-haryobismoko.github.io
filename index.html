@@ -23,11 +23,12 @@ try{if(!matchMedia('(prefers-reduced-motion:reduce)').matches)document.documentE
 <style>
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 :root{
-  --ink:#0a0c10;--ink-2:#11151c;--paper:#ece8dc;--paper-2:#e0dbc9;
-  --acc:#ff5a36;--blue:#4d6bff;--mut:#8b919c;--mut-d:#5f5e56;
-  --line:rgba(255,255,255,.12);--line-d:rgba(10,12,16,.18);
+  /* Dark: midnight + acid lime */
+  --ink:#0B0F14;--ink-2:#101722;--paper:#EDE7DA;--paper-2:#DED7C6;
+  --acc:#D7FF3E;--acc-d:#6F8A00;--blue:#8FA2C0;--mut:#7C8AA6;--mut-d:#5f5e56;
+  --line:rgba(215,255,62,.18);--line-d:rgba(11,15,20,.22);
   --f-d:'Archivo',system-ui,sans-serif;--f-b:'Instrument Sans',system-ui,sans-serif;--f-m:'JetBrains Mono',ui-monospace,monospace;
-  --acc-d:#a92f10;--ease:cubic-bezier(.2,.8,.2,1);--pad:clamp(20px,5vw,72px)
+  --ease:cubic-bezier(.2,.8,.2,1);--pad:clamp(20px,5vw,72px)
 }
 h1,h2,.stack,.big{word-spacing:.14em}
 html{scroll-behavior:smooth;background:var(--ink)}
@@ -65,7 +66,7 @@ html.intro-on{overflow:hidden}
 #chart{width:100%;height:auto;overflow:visible}
 #chart .ln{fill:none;stroke:var(--acc);stroke-width:3;stroke-dasharray:1;stroke-dashoffset:1;transition:stroke-dashoffset 1.5s cubic-bezier(.6,0,.2,1)}
 #chart.draw .ln{stroke-dashoffset:0}
-#chart .ar{fill:var(--paper);opacity:0;transition:opacity .8s}
+#chart .ar{fill:var(--acc);opacity:0;transition:opacity .8s}
 #chart.fill .ar{opacity:1}
 #chart rect{fill:var(--ink);stroke:var(--acc);stroke-width:2;opacity:0;transition:opacity .2s}
 #chartLbl{left:0;top:-2.8em}
@@ -92,7 +93,7 @@ html.intro-on{overflow:hidden}
 .dwrap .lab{color:var(--mut-d);margin-bottom:2vh}
 .tg{display:flex;align-items:center;gap:1.4vw;font:500 clamp(11px,1.1vw,16px)/1 var(--f-m);letter-spacing:.14em;text-transform:uppercase;margin-bottom:4vh}
 .pill-tg{width:clamp(70px,7vw,120px);height:clamp(36px,3.6vw,60px);border-radius:99px;background:var(--ink);border:0;position:relative;transition:background .3s}
-.pill-tg i{position:absolute;left:5px;top:5px;bottom:5px;aspect-ratio:1;border-radius:50%;background:var(--paper);transition:transform .45s var(--ease)}
+.pill-tg i{position:absolute;left:5px;top:5px;bottom:5px;aspect-ratio:1;border-radius:50%;background:var(--acc);transition:transform .45s var(--ease)}
 .pill-tg.on{background:var(--acc)}
 .pill-tg.on i{transform:translateX(calc(clamp(70px,7vw,120px) - clamp(36px,3.6vw,60px)))}
 .outl{font:900 clamp(40px,10vw,190px)/.9 var(--f-d);letter-spacing:-.045em;text-transform:uppercase;color:transparent;-webkit-text-stroke:2px var(--ink);transition:color .5s;opacity:0}
@@ -121,7 +122,7 @@ html.intro-on{overflow:hidden}
 /* ================= SITE ================= */
 #prog{position:fixed;top:0;left:0;right:0;height:3px;background:var(--acc);transform:scaleX(0);transform-origin:0 50%;z-index:90}
 @supports (animation-timeline:scroll()){#prog{animation:prog linear both;animation-timeline:scroll(root)}@keyframes prog{to{transform:scaleX(1)}}}
-nav{position:fixed;top:0;left:0;right:0;z-index:86;display:flex;justify-content:space-between;align-items:center;padding:12px var(--pad);background:rgba(10,12,16,.82);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);color:var(--paper)}
+nav{position:fixed;top:0;left:0;right:0;z-index:86;display:flex;justify-content:space-between;align-items:center;padding:12px var(--pad);background:rgba(11,15,20,.86);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);color:var(--paper)}
 .brand{font:900 20px/1 var(--f-d);letter-spacing:-.03em;text-transform:uppercase}
 .brand b{color:var(--acc)}
 .links{display:flex;gap:clamp(16px,3vw,40px);margin-left:auto}
@@ -130,10 +131,10 @@ nav{position:fixed;top:0;left:0;right:0;z-index:86;display:flex;justify-content:
 .links a:hover::after,.links a.active::after{transform:scaleX(1)}
 .menu-btn{display:none;padding:14px 0}
 .ctl{display:flex;align-items:center;gap:10px;margin-left:clamp(16px,3vw,40px)}
-.seg{display:flex;border:1px solid rgba(236,232,220,.3);border-radius:99px;padding:2px}
+.seg{display:flex;border:1px solid rgba(237,231,218,.3);border-radius:99px;padding:2px}
 .seg button{font:500 11px/1 var(--f-m);letter-spacing:.12em;color:inherit;background:none;border:0;border-radius:99px;padding:13px 12px;cursor:pointer}
-.seg button[aria-pressed=true]{background:var(--acc);color:#0a0c10}
-.ib{width:40px;height:40px;display:grid;place-items:center;border:1px solid rgba(236,232,220,.3);border-radius:50%;background:none;color:inherit;cursor:pointer}
+.seg button[aria-pressed=true]{background:var(--acc);color:var(--ink)}
+.ib{width:40px;height:40px;display:grid;place-items:center;border:1px solid rgba(237,231,218,.3);border-radius:50%;background:none;color:inherit;cursor:pointer}
 .ib svg{width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 html[data-theme=dark] .i-moon,html[data-theme=light] .i-sun{display:none}
 .sg h3 .gt{display:inline;margin:0;color:inherit}
@@ -185,11 +186,11 @@ section{position:relative;padding:clamp(80px,12vw,160px) var(--pad)}
 .btn.g:hover{background:var(--paper);color:var(--ink)}
 .btn svg{width:14px;height:14px;fill:currentColor}
 .photo{position:relative;aspect-ratio:1/1;overflow:hidden;border-radius:4px;background:var(--ink-2)}
-.photo img{width:100%;height:100%;object-fit:cover;object-position:50% 0;filter:grayscale(1) contrast(1.05);transform:scale(1.08)}
-@supports (animation-timeline:view()){.photo img{animation:par linear both;animation-timeline:view()}@keyframes par{from{transform:translateY(-5%) scale(1.14)}to{transform:translateY(5%) scale(1.14)}}}
-.photo::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 55%,rgba(10,12,16,.7));pointer-events:none}
-.status{position:absolute;left:12px;bottom:12px;z-index:2;display:flex;align-items:center;gap:8px;background:rgba(10,12,16,.75);backdrop-filter:blur(8px);padding:9px 14px;border-radius:99px;color:var(--paper)}
-.status i{width:8px;height:8px;border-radius:50%;background:#3dff8b;animation:pulse 1.8s infinite}
+.photo img{width:100%;height:100%;object-fit:cover;object-position:50% 0;transform:scale(1.05)}
+@supports (animation-timeline:view()){.photo img{animation:par linear both;animation-timeline:view()}@keyframes par{from{transform:translateY(-5%) scale(1.1)}to{transform:translateY(5%) scale(1.1)}}}
+.photo::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 55%,rgba(11,15,20,.7));pointer-events:none}
+.status{position:absolute;left:12px;bottom:12px;z-index:2;display:flex;align-items:center;gap:8px;background:rgba(11,15,20,.75);backdrop-filter:blur(8px);padding:9px 14px;border-radius:99px;color:var(--paper)}
+.status i{width:8px;height:8px;border-radius:50%;background:var(--acc);animation:pulse 1.8s infinite}
 @keyframes pulse{50%{opacity:.3}}
 .corner{position:absolute;width:16px;height:16px;border:1.5px solid var(--acc);z-index:2}
 .corner.a{left:10px;top:10px;border-right:0;border-bottom:0}.corner.b{right:10px;top:10px;border-left:0;border-bottom:0}
@@ -198,6 +199,7 @@ section{position:relative;padding:clamp(80px,12vw,160px) var(--pad)}
 .stat:first-child{padding-left:0}.stat:last-child{border-right:0}
 .stat strong{display:block;font:900 clamp(34px,5.4vw,90px)/1 var(--f-d);letter-spacing:-.04em}
 .stat .mono{color:var(--mut)}
+
 .marquee{overflow:hidden;border-block:1px solid var(--line);padding:16px 0;background:var(--ink);position:relative}
 .marquee-in{display:flex;width:max-content;animation:mq 38s linear infinite}
 .marquee span{font:900 clamp(20px,2.4vw,36px)/1 var(--f-d);letter-spacing:-.02em;text-transform:uppercase;padding-right:1.4em;white-space:nowrap}
@@ -218,7 +220,7 @@ section{position:relative;padding:clamp(80px,12vw,160px) var(--pad)}
 .exp ul{list-style:none;display:grid;gap:10px}
 .exp li{padding-left:22px;position:relative}
 .exp li::before{content:"";position:absolute;left:0;top:.7em;width:10px;height:2px;background:var(--acc)}
-.exp li strong{font-weight:600;background:linear-gradient(transparent 62%,rgba(255,90,54,.28) 0)}
+.exp li strong{font-weight:600;background:linear-gradient(transparent 62%,rgba(215,255,62,.28) 0)}
 .tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px}
 .tag{font:500 11px/1 var(--f-m);letter-spacing:.06em;text-transform:uppercase;border:1px solid var(--line-d);padding:7px 11px;border-radius:99px}
 
@@ -255,7 +257,7 @@ section{position:relative;padding:clamp(80px,12vw,160px) var(--pad)}
 .fl:hover,.fl.on{background:var(--ink);color:var(--paper)}
 .pgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:clamp(18px,2.4vw,36px)}
 .case{display:flex;flex-direction:column;background:var(--ink);color:var(--paper);border-radius:6px;overflow:hidden;transition:transform .5s var(--ease),box-shadow .5s}
-.case:hover{transform:translateY(-8px);box-shadow:0 30px 60px -20px rgba(10,12,16,.45)}
+.case:hover{transform:translateY(-8px);box-shadow:0 30px 60px -20px rgba(11,15,20,.45)}
 .case.feat{grid-column:1/-1;display:grid;grid-template-columns:1.25fr 1fr}
 .embed{position:relative;aspect-ratio:16/9;background:var(--ink-2);overflow:hidden}
 .embed iframe{width:100%;height:calc(100% + 42px);border:0;pointer-events:none}
@@ -274,7 +276,7 @@ section{position:relative;padding:clamp(80px,12vw,160px) var(--pad)}
 .more h3{font:500 12px/1 var(--f-m);letter-spacing:.14em;text-transform:uppercase;color:var(--mut-d);margin-bottom:14px}
 .mi{display:grid;grid-template-columns:120px 1fr 30px;gap:20px;align-items:center;padding:22px 0;border-top:1px solid var(--line-d);transition:padding .4s var(--ease),background .3s}
 .mi:last-child{border-bottom:1px solid var(--line-d)}
-.mi:hover{padding-left:16px;background:rgba(10,12,16,.04)}
+.mi:hover{padding-left:16px;background:rgba(11,15,20,.04)}
 .mi .cat{color:var(--ink)}
 .light .case .cat{color:var(--acc)}
 .mi b{display:block;font:800 clamp(18px,2vw,28px)/1.1 var(--f-d);letter-spacing:-.02em;text-transform:uppercase}
@@ -317,15 +319,14 @@ footer button:hover{color:var(--ink);background:var(--paper)}
 #top{position:fixed;right:20px;bottom:20px;z-index:70;width:48px;height:48px;border-radius:50%;border:1.5px solid var(--paper);background:var(--ink);color:var(--paper);font-size:20px;cursor:pointer;opacity:0;pointer-events:none;transform:translateY(12px);transition:.4s var(--ease)}
 #top.show{opacity:1;pointer-events:auto;transform:none}
 
-/* themes: dark = :root default. Light swaps base surfaces; .light sections swap the other way. */
-.case{--ink:#0a0c10;--ink-2:#11151c;--paper:#ece8dc;--mut:#8b919c;--line:rgba(255,255,255,.12);border:1px solid var(--line)}
-html[data-theme=dark] section.light{--ink:#ece8dc;--paper:#11151c;--mut-d:#8b919c;--line-d:rgba(255,255,255,.14);--acc-d:#ff5a36}
-html[data-theme=dark] .mi:hover{background:rgba(255,255,255,.05)}
-html[data-theme=light]{--ink:#f6f3ea;--ink-2:#ebe6d6;--paper:#0a0c10;--mut:#5f5e56;--line:rgba(10,12,16,.16);color-scheme:light}
-html[data-theme=light] :is(#intro,nav,#mmenu,#top,.status,.contact,section.light){--ink:#0a0c10;--ink-2:#11151c;--paper:#ece8dc;--mut:#8b919c;--line:rgba(255,255,255,.12)}
+/* Light theme overrides */
+html[data-theme=light]{--ink:#F5F0E8;--ink-2:#EBE5D5;--paper:#0A0C10;--mut:#5f5e56;--line:rgba(10,12,16,.16);--line-d:rgba(237,231,218,.22);color-scheme:light}
+html[data-theme=light] :is(#intro,nav,#mmenu,#top,.status,.contact,section.light){--ink:#0A0C10;--ink-2:#101722;--paper:#EDE7DA;--mut:#7C8AA6;--line:rgba(215,255,62,.18)}
 html[data-theme=light] section.light{background:var(--paper-2)}
-html[data-theme=light] .btn.p,html[data-theme=light] .chip2:hover{color:#0a0c10}
+html[data-theme=light] .btn.p,html[data-theme=light] .chip2:hover{color:#0A0C10}
 html[data-theme=light] .btn.p:hover{color:var(--ink)}
+html[data-theme=light] .exp li strong{background:linear-gradient(transparent 62%,rgba(111,138,0,.28) 0)}
+html[data-theme=light] .status i{background:var(--acc-d)}
 
 @media(max-width:900px){
   #top{display:none}
@@ -443,7 +444,9 @@ html[data-theme=light] .btn.p:hover{color:var(--ink)}
     </div>
     <div class="photo">
       <span class="corner a"></span><span class="corner b"></span>
-      <img src="assets/images/banner/Gemini_Generated_Image_8gdhpf8gdhpf8gdh.png" alt="Kukuh Haryobismoko">
+      <!-- Portrait: dark = engraving lime on midnight, light = engraving ink on bone -->
+      <img class="portrait-dark" src="assets/images/banner/eng_dark.png" alt="Kukuh Haryobismoko">
+      <img class="portrait-light" src="assets/images/banner/eng_light.png" alt="Kukuh Haryobismoko" style="display:none">
       <div class="status mono"><i></i><span data-id="Terbuka untuk peran baru">Open to new roles</span></div>
     </div>
   </div>
@@ -470,7 +473,7 @@ html[data-theme=light] .btn.p:hover{color:var(--ink)}
         <div class="rule"></div>
         <div class="exp-top mono"><span class="now" data-id="Apr 2024 — Sekarang">Apr 2024 — Present</span><span>Jakarta, Indonesia</span></div>
         <h3><img src="assets/images/team/sayakaya.png" alt="">SayaKaya <span style="font-size:.55em;opacity:.65;white-space:nowrap">(Sucor Group)</span></h3>
-        <div class="rl">Data Analyst — APERD Platform · Business Intelligence, Customer Analytics &amp; Data Platform</div>
+        <div class="rl">Data Analyst — APERD Platform · Business Intelligence, Customer Analytics & Data Platform</div>
         <div class="proj rv">
           <div class="proj-h mono"><b data-id="Proyek unggulan">Featured project</b><span data-id="Jun 2026 — Sekarang · dibangun sendiri">Jun 2026 — Present · Solo build</span></div>
           <h4>SayaKaya Analytics — full web platform</h4>
@@ -483,7 +486,7 @@ html[data-theme=light] .btn.p:hover{color:var(--ink)}
           <dl class="proj-g">
             <div><dt data-id="Fungsi">What it does</dt><dd data-id="54 tab dalam 8 grup: tren AUM dan revenue, portofolio investor yang dicek silang dari beberapa sumber data independen, pencarian transaksi, rekonsiliasi dengan kustodian, pelacakan referral dan event booth, funnel produk, analisis KYC dan subscription, serta kesehatan notifikasi push dan aplikasi. Ekspor ke CSV, Excel, PDF, dan Google Sheets.">54 tabs in 8 groups: AUM and revenue trends, investor portfolios cross-checked across independent data sources, transaction search, custodian reconciliation, referral and booth-event tracking, product funnel, KYC and subscription analysis, push and app health. Exports to CSV, Excel, PDF and Google Sheets.</dd></div>
             <div><dt data-id="Otomasi">Automation</dt><dd data-id="Email e-statement dan performa reksa dana terjadwal lewat Amazon SES dan cron GitHub Actions, dengan konfirmasi OTP, pelacakan buka/klik, dan tab rekap email.">Scheduled e-statement and fund-performance emails via Amazon SES and a GitHub Actions cron, with OTP confirmation, open/click tracking and an email-recap tab.</dd></div>
-            <div><dt data-id="AI &amp; peramalan">AI &amp; forecasting</dt><dd data-id="Fitur Ask mengubah pertanyaan bahasa sehari-hari menjadi SQL read-only lewat Claude lalu memilih grafiknya. BigQuery ML memprediksi AUM dan volume transaksi (ARIMA_PLUS) serta menilai risiko churn (regresi logistik). AI Insights menjalankan ringkasan mingguan, pemindaian anomali, daftar aksi churn, dan cek kualitas data.">The Ask assistant turns plain-language questions into read-only SQL with Claude and picks the chart. BigQuery ML forecasts AUM and transaction volume (ARIMA_PLUS) and scores churn risk (logistic regression). AI Insights runs a weekly summary, anomaly scan, churn action list and data-quality check.</dd></div>
+            <div><dt data-id="AI & peramalan">AI & forecasting</dt><dd data-id="Fitur Ask mengubah pertanyaan bahasa sehari-hari menjadi SQL read-only lewat Claude lalu memilih grafiknya. BigQuery ML memprediksi AUM dan volume transaksi (ARIMA_PLUS) serta menilai risiko churn (regresi logistik). AI Insights menjalankan ringkasan mingguan, pemindaian anomali, daftar aksi churn, dan cek kualitas data.">The Ask assistant turns plain-language questions into read-only SQL with Claude and picks the chart. BigQuery ML forecasts AUM and transaction volume (ARIMA_PLUS) and scores churn risk (logistic regression). AI Insights runs a weekly summary, anomaly scan, churn action list and data-quality check.</dd></div>
             <div><dt data-id="Arsitektur">Architecture</dt><dd data-id="Front-end HTML/CSS/JS murni dengan Chart.js tanpa langkah build, di GitHub Pages. API Node.js/Express dimigrasikan ke Supabase Edge Function (Deno/TypeScript) dengan SQL identik. BigQuery menyimpan data; Supabase Postgres menyimpan akun, sesi, jadwal, dan log. Tes otomatis merender setiap tab dengan data contoh.">Plain HTML/CSS/JS front end with Chart.js, no build step, on GitHub Pages. Node.js/Express API ported to a Supabase Edge Function (Deno/TypeScript) with identical SQL. BigQuery holds the data; Supabase Postgres holds accounts, sessions, schedules and logs. Automated tests render every tab with sample data.</dd></div>
             <div><dt data-id="Pengamanan">Guardrails</dt><dd data-id="Hak akses tab per akun, kata sandi di-hash, sesi 7 hari, kolom sensitif disaring dari setiap hasil, SQL read-only satu statement untuk SQL lab dan Ask, batas byte BigQuery per query, dan log aktivitas.">Per-account tab permissions, hashed passwords, 7-day sessions, sensitive columns stripped from every result, single-statement read-only SQL for SQL lab and Ask, a per-query BigQuery byte cap and an activity log.</dd></div>
           </dl>
@@ -506,7 +509,7 @@ html[data-theme=light] .btn.p:hover{color:var(--ink)}
         <div class="rule"></div>
         <div class="exp-top mono"><span>Jun 2025 — Feb 2026</span><span data-id="Jarak jauh">Remote</span></div>
         <h3><img src="assets/images/team/revou.webp" alt="">RevoU — Edutech</h3>
-        <div class="rl">Team Lead — Mentorship &amp; Project Delivery</div>
+        <div class="rl">Team Lead — Mentorship & Project Delivery</div>
         <ul>
           <li data-id="Membimbing 15+ peserta lewat proyek kasus dan review SQL/Python, meningkatkan hasil bagi peserta yang kesulitan dengan analitik terapan.">Guided 15+ participants through SQL/Python case projects and reviews, improving outcomes for learners struggling with applied analytics.</li>
           <li data-id="Menerapkan pelacakan milestone dan ritme umpan balik, mempercepat penyelesaian kohort dengan visibilitas progres yang konsisten.">Implemented milestone tracking and feedback cadences, accelerating cohort completion with consistent progress visibility.</li>
@@ -518,7 +521,7 @@ html[data-theme=light] .btn.p:hover{color:var(--ink)}
         <div class="rule"></div>
         <div class="exp-top mono"><span data-id="Jan 2024 — Mei 2024">Jan 2024 — May 2024</span><span data-id="Jarak jauh">Remote</span></div>
         <h3><img src="assets/images/team/revou.webp" alt="">RevoU — Edutech</h3>
-        <div class="rl">Data Analyst Associate (Intern) — Marketing &amp; Customer Analytics</div>
+        <div class="rl">Data Analyst Associate (Intern) — Marketing & Customer Analytics</div>
         <ul>
           <li data-id="Profiling dan clustering perilaku, <strong>memperluas segmen loyalis 32%</strong>.">Profiling and behavioural clustering, <strong>expanding loyalist segments by 32%</strong>.</li>
           <li data-id="Membangun model propensity Python dengan <strong>akurasi 80%+</strong> memakai fitur RFM, menemukan 25% lebih banyak pengguna berpotensi tinggi.">Built an <strong>80%+ accuracy</strong> Python propensity model with RFM features, uncovering 25% more high-potential users.</li>
@@ -660,14 +663,14 @@ html[data-theme=light] .btn.p:hover{color:var(--ink)}
 <!-- SKILLS -->
 <section id="skills">
   <div class="eyebrow mono rv"><b>04</b> <span data-id="Keahlian">Skills</span></div>
-  <h2 class="h2 rv"><span class="m"><span data-id="Alat &amp;">Tools &amp;</span></span><span class="m"><span data-id="keahlian<b>.</b>">expertise<b>.</b></span></span></h2>
+  <h2 class="h2 rv"><span class="m"><span data-id="Alat &">Tools &</span></span><span class="m"><span data-id="keahlian<b>.</b>">expertise<b>.</b></span></span></h2>
   <div class="sk">
     <div class="sg rv"><h3><span class="gt" data-id="Inti">Core</span><span data-count></span></h3><div class="chips">
-      <span class="chip2">SQL</span><span class="chip2">Python</span><span class="chip2">Google BigQuery</span><span class="chip2">Tableau</span><span class="chip2">Power BI</span><span class="chip2">Looker</span><span class="chip2">Metabase</span><span class="chip2">Google Analytics</span><span class="chip2">ETL pipelines</span><span class="chip2">Funnel analysis</span><span class="chip2">Segmentation &amp; RFM</span></div></div>
-    <div class="sg rv"><h3><span class="gt" data-id="Platform data &amp; biaya">Data platform &amp; cost</span><span data-count></span></h3><div class="chips">
-      <span class="chip2 n">BigQuery partitioning &amp; clustering</span><span class="chip2 n">Query cost optimization</span><span class="chip2 n">Scheduled queries</span><span class="chip2 n">Connected Sheets</span><span class="chip2 n">Supabase / Postgres</span><span class="chip2 n">Node.js</span><span class="chip2 n">Claude API &amp; AI-assisted analytics</span><span class="chip2 n">Data reconciliation</span></div></div>
+      <span class="chip2">SQL</span><span class="chip2">Python</span><span class="chip2">Google BigQuery</span><span class="chip2">Tableau</span><span class="chip2">Power BI</span><span class="chip2">Looker</span><span class="chip2">Metabase</span><span class="chip2">Google Analytics</span><span class="chip2">ETL pipelines</span><span class="chip2">Funnel analysis</span><span class="chip2">Segmentation & RFM</span></div></div>
+    <div class="sg rv"><h3><span class="gt" data-id="Platform data & biaya">Data platform & cost</span><span data-count></span></h3><div class="chips">
+      <span class="chip2 n">BigQuery partitioning & clustering</span><span class="chip2 n">Query cost optimization</span><span class="chip2 n">Scheduled queries</span><span class="chip2 n">Connected Sheets</span><span class="chip2 n">Supabase / Postgres</span><span class="chip2 n">Node.js</span><span class="chip2 n">Claude API & AI-assisted analytics</span><span class="chip2 n">Data reconciliation</span></div></div>
     <div class="sg rv"><h3><span class="gt" data-id="Metode analitik">Analytics methods</span><span data-count></span></h3><div class="chips">
-      <span class="chip2" data-id="Analisis eksploratif">Exploratory analysis</span><span class="chip2">Cohort analysis</span><span class="chip2" data-id="Uji hipotesis">Hypothesis testing</span><span class="chip2">A/B testing</span><span class="chip2">Propensity modelling</span><span class="chip2">Dashboarding</span><span class="chip2">Clustering &amp; classification</span></div></div>
+      <span class="chip2" data-id="Analisis eksploratif">Exploratory analysis</span><span class="chip2">Cohort analysis</span><span class="chip2" data-id="Uji hipotesis">Hypothesis testing</span><span class="chip2">A/B testing</span><span class="chip2">Propensity modelling</span><span class="chip2">Dashboarding</span><span class="chip2">Clustering & classification</span></div></div>
     <div class="sg rv"><h3><span class="gt" data-id="Soft skill">Soft skills</span><span data-count></span></h3><div class="chips">
       <span class="chip2" data-id="Wawasan bisnis">Business acumen</span><span class="chip2" data-id="Ketelitian">Attention to detail</span><span class="chip2" data-id="Berpikir kritis">Critical thinking</span><span class="chip2" data-id="Kerja sama tim">Teamwork</span><span class="chip2" data-id="Pemecahan masalah">Problem-solving</span><span class="chip2" data-id="Komunikasi">Communication</span><span class="chip2" data-id="Presentasi">Presentation</span></div></div>
   </div>
@@ -746,14 +749,18 @@ function setLang(l){
   $('#themeBtn').setAttribute('aria-label',l==='id'?'Ganti tema':'Switch theme');
   phrases=P[l];pi=ci=0;del=false;$('#typed').textContent='';
 }
-function setTheme(t){root.dataset.theme=t;try{localStorage.setItem('theme',t)}catch(e){}}
+function setTheme(t){
+  root.dataset.theme=t;try{localStorage.setItem('theme',t)}catch(e){}
+  // swap hero portrait
+  $$('.portrait-dark').forEach(img=>img.style.display=t==='dark'?'block':'none');
+  $$('.portrait-light').forEach(img=>img.style.display=t==='light'?'block':'none');
+}
 $$('.seg button').forEach(b=>b.onclick=()=>setLang(b.dataset.l));
 $('#themeBtn').onclick=()=>setTheme(root.dataset.theme==='light'?'dark':'light');
 setLang(root.lang==='id'?'id':'en');
 
 let started=false;
 function ready(){if(started)return;started=true;document.body.classList.add('ready');setTimeout(typeLoop,700)}
-
 
 /* ---------- intro ---------- */
 if(!root.classList.contains('intro-on')){ready();return}
@@ -808,7 +815,7 @@ at(4200,()=>{on('#scC');stack(['Kukuh','Haryobismoko'])});
 at(5500,()=>{$('#stack').classList.add('leave')});
 at(5950,()=>stack(['Data','Analyst']));
 at(7000,()=>{$('#stack').classList.add('leave');gone('#scB')});
-at(7400,()=>{$('#scC').classList.add('plain');stack(['SQL<b>/</b>','Python','<b>&amp;</b> BI<b>.</b>'])});
+at(7400,()=>{$('#scC').classList.add('plain');stack(['SQL<b>/</b>','Python','<b>&</b> BI<b>.</b>'])});
 // D: cream wipe, toggle
 at(8800,()=>{gone('#scC');$('#panel').classList.add('in');intro.classList.add('light');on('#scD');cursor(innerWidth*.6,innerHeight*.8)});
 at(9600,()=>{$('#outl').classList.add('in');cursorTo($('#tg'))});
