@@ -23,12 +23,11 @@ try{if(!matchMedia('(prefers-reduced-motion:reduce)').matches)document.documentE
 <style>
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 :root{
-  /* Dark: midnight + acid lime */
-  --ink:#0B0F14;--ink-2:#101722;--paper:#EDE7DA;--paper-2:#DED7C6;
-  --acc:#D7FF3E;--acc-d:#6F8A00;--blue:#8FA2C0;--mut:#7C8AA6;--mut-d:#5f5e56;
-  --line:rgba(215,255,62,.18);--line-d:rgba(11,15,20,.22);
+  --ink:#0a0c10;--ink-2:#11151c;--paper:#ece8dc;--paper-2:#e0dbc9;
+  --acc:#ff5a36;--blue:#4d6bff;--mut:#8b919c;--mut-d:#5f5e56;
+  --line:rgba(255,255,255,.12);--line-d:rgba(10,12,16,.18);
   --f-d:'Archivo',system-ui,sans-serif;--f-b:'Instrument Sans',system-ui,sans-serif;--f-m:'JetBrains Mono',ui-monospace,monospace;
-  --ease:cubic-bezier(.2,.8,.2,1);--pad:clamp(20px,5vw,72px)
+  --acc-d:#a92f10;--ease:cubic-bezier(.2,.8,.2,1);--pad:clamp(20px,5vw,72px)
 }
 h1,h2,.stack,.big{word-spacing:.14em}
 html{scroll-behavior:smooth;background:var(--ink)}
@@ -62,15 +61,21 @@ html.intro-on{overflow:hidden}
 .sel .chip{top:-2.1em;left:-1.5px}.sel .chip.bl{top:auto;bottom:-2.3em;left:50%;transform:translateX(-50%);background:var(--blue);color:#fff}
 .sel i{position:absolute;width:9px;height:9px;background:var(--paper);border:1.5px solid var(--acc)}
 .sel .a{left:-5px;top:-5px}.sel .b{right:-5px;top:-5px}.sel .c{left:-5px;bottom:-5px}.sel .d{right:-5px;bottom:-5px}
-#chartWrap{position:absolute;left:8vw;right:8vw;top:50%;transform:translateY(-50%)}
-#chart{width:100%;height:auto;overflow:visible}
-#chart .ln{fill:none;stroke:var(--acc);stroke-width:3;stroke-dasharray:1;stroke-dashoffset:1;transition:stroke-dashoffset 1.5s cubic-bezier(.6,0,.2,1)}
-#chart.draw .ln{stroke-dashoffset:0}
-#chart .ar{fill:var(--acc);opacity:0;transition:opacity .8s}
+#chartWrap{position:absolute;left:50%;bottom:-12vh;height:108vh;aspect-ratio:307/400;transform:translateX(-50%)}
+#chart{width:100%;height:100%;overflow:visible;display:block}
+#chart .ln,#chart .ec{fill:none;stroke:var(--acc);stroke-dasharray:1;stroke-dashoffset:1;stroke-linejoin:round;stroke-linecap:round}
+#chart .ln{stroke-width:1.5;transition:stroke-dashoffset 1.7s cubic-bezier(.6,0,.2,1)}
+#chart .ec{stroke-width:.8;opacity:.5;transition:stroke-dashoffset 1.6s cubic-bezier(.5,0,.2,1)}
+#chart.draw .ln,#chart.draw .ec{stroke-dashoffset:0}
+#chart .ar{fill:var(--paper);opacity:0;transition:opacity .7s}
 #chart.fill .ar{opacity:1}
-#chart rect{fill:var(--ink);stroke:var(--acc);stroke-width:2;opacity:0;transition:opacity .2s}
-#chartLbl{left:0;top:-2.8em}
-#chartLbl2{right:0;top:-2.8em;background:var(--blue);color:#fff}
+#chart .fc{fill:var(--ink);opacity:0;transition:opacity .7s .15s}
+#chart.fill .fc{opacity:1}
+#chart.fill .ln,#chart.fill rect{opacity:0;transition:opacity .6s}
+#chart.fill .ec{stroke:var(--paper);opacity:.2;transition:opacity .6s,stroke .6s}
+#chart rect{fill:var(--ink);stroke:var(--acc);stroke-width:1;opacity:0;transition:opacity .2s}
+#chartLbl{left:72%;top:9%;transition:opacity .5s}
+#chartLbl.off{opacity:0}
 #scC{mix-blend-mode:difference;color:#fff}
 #scC.plain{mix-blend-mode:normal;color:var(--paper)}
 .stack{position:absolute;left:8vw;top:50%;transform:translateY(-50%);font:900 clamp(40px,9.2vw,170px)/.92 var(--f-d);letter-spacing:-.045em;text-transform:uppercase}
@@ -93,7 +98,7 @@ html.intro-on{overflow:hidden}
 .dwrap .lab{color:var(--mut-d);margin-bottom:2vh}
 .tg{display:flex;align-items:center;gap:1.4vw;font:500 clamp(11px,1.1vw,16px)/1 var(--f-m);letter-spacing:.14em;text-transform:uppercase;margin-bottom:4vh}
 .pill-tg{width:clamp(70px,7vw,120px);height:clamp(36px,3.6vw,60px);border-radius:99px;background:var(--ink);border:0;position:relative;transition:background .3s}
-.pill-tg i{position:absolute;left:5px;top:5px;bottom:5px;aspect-ratio:1;border-radius:50%;background:var(--acc);transition:transform .45s var(--ease)}
+.pill-tg i{position:absolute;left:5px;top:5px;bottom:5px;aspect-ratio:1;border-radius:50%;background:var(--paper);transition:transform .45s var(--ease)}
 .pill-tg.on{background:var(--acc)}
 .pill-tg.on i{transform:translateX(calc(clamp(70px,7vw,120px) - clamp(36px,3.6vw,60px)))}
 .outl{font:900 clamp(40px,10vw,190px)/.9 var(--f-d);letter-spacing:-.045em;text-transform:uppercase;color:transparent;-webkit-text-stroke:2px var(--ink);transition:color .5s;opacity:0}
@@ -115,14 +120,14 @@ html.intro-on{overflow:hidden}
 .on .frule{width:min(60vw,720px)}
 .fsub{color:var(--mut);margin-bottom:3vh}.fsub b{color:var(--acc);font-weight:500}
 .ftag{font:400 clamp(16px,1.8vw,28px)/1.2 var(--f-b);color:var(--paper);min-height:1.3em}
-.skip{position:absolute;z-index:10;bottom:3vh;left:50%;transform:translateX(-50%);font:500 11px/1 var(--f-m);letter-spacing:.14em;text-transform:uppercase;color:var(--mut);background:none;border:1px solid var(--line);border-radius:99px;padding:.8em 1.4em;cursor:pointer;transition:color .3s,border-color .3s,background .3s}
+.skip{position:absolute;z-index:10;bottom:3vh;left:50%;transform:translateX(-50%);font:500 11px/1 var(--f-m);letter-spacing:.14em;text-transform:uppercase;color:var(--paper);background:rgba(10,12,16,.92);border:1px solid var(--line);border-radius:99px;padding:.8em 1.4em;cursor:pointer;transition:color .3s,border-color .3s,background .3s}
 .skip:hover{color:var(--ink);background:var(--paper)}
 #intro.light .skip{color:var(--mut-d);border-color:var(--line-d)}
 
 /* ================= SITE ================= */
 #prog{position:fixed;top:0;left:0;right:0;height:3px;background:var(--acc);transform:scaleX(0);transform-origin:0 50%;z-index:90}
 @supports (animation-timeline:scroll()){#prog{animation:prog linear both;animation-timeline:scroll(root)}@keyframes prog{to{transform:scaleX(1)}}}
-nav{position:fixed;top:0;left:0;right:0;z-index:86;display:flex;justify-content:space-between;align-items:center;padding:12px var(--pad);background:rgba(11,15,20,.86);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);color:var(--paper)}
+nav{position:fixed;top:0;left:0;right:0;z-index:86;display:flex;justify-content:space-between;align-items:center;padding:12px var(--pad);background:rgba(10,12,16,.82);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);color:var(--paper)}
 .brand{font:900 20px/1 var(--f-d);letter-spacing:-.03em;text-transform:uppercase}
 .brand b{color:var(--acc)}
 .links{display:flex;gap:clamp(16px,3vw,40px);margin-left:auto}
@@ -131,10 +136,10 @@ nav{position:fixed;top:0;left:0;right:0;z-index:86;display:flex;justify-content:
 .links a:hover::after,.links a.active::after{transform:scaleX(1)}
 .menu-btn{display:none;padding:14px 0}
 .ctl{display:flex;align-items:center;gap:10px;margin-left:clamp(16px,3vw,40px)}
-.seg{display:flex;border:1px solid rgba(237,231,218,.3);border-radius:99px;padding:2px}
+.seg{display:flex;border:1px solid rgba(236,232,220,.3);border-radius:99px;padding:2px}
 .seg button{font:500 11px/1 var(--f-m);letter-spacing:.12em;color:inherit;background:none;border:0;border-radius:99px;padding:13px 12px;cursor:pointer}
-.seg button[aria-pressed=true]{background:var(--acc);color:var(--ink)}
-.ib{width:40px;height:40px;display:grid;place-items:center;border:1px solid rgba(237,231,218,.3);border-radius:50%;background:none;color:inherit;cursor:pointer}
+.seg button[aria-pressed=true]{background:var(--acc);color:#0a0c10}
+.ib{width:40px;height:40px;display:grid;place-items:center;border:1px solid rgba(236,232,220,.3);border-radius:50%;background:none;color:inherit;cursor:pointer}
 .ib svg{width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 html[data-theme=dark] .i-moon,html[data-theme=light] .i-sun{display:none}
 .sg h3 .gt{display:inline;margin:0;color:inherit}
@@ -186,11 +191,11 @@ section{position:relative;padding:clamp(80px,12vw,160px) var(--pad)}
 .btn.g:hover{background:var(--paper);color:var(--ink)}
 .btn svg{width:14px;height:14px;fill:currentColor}
 .photo{position:relative;aspect-ratio:1/1;overflow:hidden;border-radius:4px;background:var(--ink-2)}
-.photo img{width:100%;height:100%;object-fit:cover;object-position:50% 0;transform:scale(1.05)}
-@supports (animation-timeline:view()){.photo img{animation:par linear both;animation-timeline:view()}@keyframes par{from{transform:translateY(-5%) scale(1.1)}to{transform:translateY(5%) scale(1.1)}}}
-.photo::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 55%,rgba(11,15,20,.7));pointer-events:none}
-.status{position:absolute;left:12px;bottom:12px;z-index:2;display:flex;align-items:center;gap:8px;background:rgba(11,15,20,.75);backdrop-filter:blur(8px);padding:9px 14px;border-radius:99px;color:var(--paper)}
-.status i{width:8px;height:8px;border-radius:50%;background:var(--acc);animation:pulse 1.8s infinite}
+.photo img{width:100%;height:100%;object-fit:cover;object-position:50% 0;transform:scale(1.08)}
+@supports (animation-timeline:view()){.photo img{animation:par linear both;animation-timeline:view()}@keyframes par{from{transform:translateY(-5%) scale(1.14)}to{transform:translateY(5%) scale(1.14)}}}
+.photo::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 55%,rgba(10,12,16,.7));pointer-events:none}
+.status{position:absolute;left:12px;bottom:12px;z-index:2;display:flex;align-items:center;gap:8px;background:rgba(10,12,16,.75);backdrop-filter:blur(8px);padding:9px 14px;border-radius:99px;color:var(--paper)}
+.status i{width:8px;height:8px;border-radius:50%;background:#3dff8b;animation:pulse 1.8s infinite}
 @keyframes pulse{50%{opacity:.3}}
 .corner{position:absolute;width:16px;height:16px;border:1.5px solid var(--acc);z-index:2}
 .corner.a{left:10px;top:10px;border-right:0;border-bottom:0}.corner.b{right:10px;top:10px;border-left:0;border-bottom:0}
@@ -199,7 +204,6 @@ section{position:relative;padding:clamp(80px,12vw,160px) var(--pad)}
 .stat:first-child{padding-left:0}.stat:last-child{border-right:0}
 .stat strong{display:block;font:900 clamp(34px,5.4vw,90px)/1 var(--f-d);letter-spacing:-.04em}
 .stat .mono{color:var(--mut)}
-
 .marquee{overflow:hidden;border-block:1px solid var(--line);padding:16px 0;background:var(--ink);position:relative}
 .marquee-in{display:flex;width:max-content;animation:mq 38s linear infinite}
 .marquee span{font:900 clamp(20px,2.4vw,36px)/1 var(--f-d);letter-spacing:-.02em;text-transform:uppercase;padding-right:1.4em;white-space:nowrap}
@@ -220,7 +224,7 @@ section{position:relative;padding:clamp(80px,12vw,160px) var(--pad)}
 .exp ul{list-style:none;display:grid;gap:10px}
 .exp li{padding-left:22px;position:relative}
 .exp li::before{content:"";position:absolute;left:0;top:.7em;width:10px;height:2px;background:var(--acc)}
-.exp li strong{font-weight:600;background:linear-gradient(transparent 62%,rgba(215,255,62,.28) 0)}
+.exp li strong{font-weight:600;background:linear-gradient(transparent 62%,rgba(255,90,54,.28) 0)}
 .tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px}
 .tag{font:500 11px/1 var(--f-m);letter-spacing:.06em;text-transform:uppercase;border:1px solid var(--line-d);padding:7px 11px;border-radius:99px}
 
@@ -257,7 +261,7 @@ section{position:relative;padding:clamp(80px,12vw,160px) var(--pad)}
 .fl:hover,.fl.on{background:var(--ink);color:var(--paper)}
 .pgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:clamp(18px,2.4vw,36px)}
 .case{display:flex;flex-direction:column;background:var(--ink);color:var(--paper);border-radius:6px;overflow:hidden;transition:transform .5s var(--ease),box-shadow .5s}
-.case:hover{transform:translateY(-8px);box-shadow:0 30px 60px -20px rgba(11,15,20,.45)}
+.case:hover{transform:translateY(-8px);box-shadow:0 30px 60px -20px rgba(10,12,16,.45)}
 .case.feat{grid-column:1/-1;display:grid;grid-template-columns:1.25fr 1fr}
 .embed{position:relative;aspect-ratio:16/9;background:var(--ink-2);overflow:hidden}
 .embed iframe{width:100%;height:calc(100% + 42px);border:0;pointer-events:none}
@@ -276,7 +280,7 @@ section{position:relative;padding:clamp(80px,12vw,160px) var(--pad)}
 .more h3{font:500 12px/1 var(--f-m);letter-spacing:.14em;text-transform:uppercase;color:var(--mut-d);margin-bottom:14px}
 .mi{display:grid;grid-template-columns:120px 1fr 30px;gap:20px;align-items:center;padding:22px 0;border-top:1px solid var(--line-d);transition:padding .4s var(--ease),background .3s}
 .mi:last-child{border-bottom:1px solid var(--line-d)}
-.mi:hover{padding-left:16px;background:rgba(11,15,20,.04)}
+.mi:hover{padding-left:16px;background:rgba(10,12,16,.04)}
 .mi .cat{color:var(--ink)}
 .light .case .cat{color:var(--acc)}
 .mi b{display:block;font:800 clamp(18px,2vw,28px)/1.1 var(--f-d);letter-spacing:-.02em;text-transform:uppercase}
@@ -319,14 +323,15 @@ footer button:hover{color:var(--ink);background:var(--paper)}
 #top{position:fixed;right:20px;bottom:20px;z-index:70;width:48px;height:48px;border-radius:50%;border:1.5px solid var(--paper);background:var(--ink);color:var(--paper);font-size:20px;cursor:pointer;opacity:0;pointer-events:none;transform:translateY(12px);transition:.4s var(--ease)}
 #top.show{opacity:1;pointer-events:auto;transform:none}
 
-/* Light theme overrides */
-html[data-theme=light]{--ink:#F5F0E8;--ink-2:#EBE5D5;--paper:#0A0C10;--mut:#5f5e56;--line:rgba(10,12,16,.16);--line-d:rgba(237,231,218,.22);--acc:#6F8A00;--acc-d:#D7FF3E;color-scheme:light}
-html[data-theme=light] :is(#intro,nav,#mmenu,#top,.status,.contact,section.light){--ink:#0A0C10;--ink-2:#101722;--paper:#EDE7DA;--mut:#7C8AA6;--line:rgba(215,255,62,.18)}
+/* themes: dark = :root default. Light swaps base surfaces; .light sections swap the other way. */
+.case{--ink:#0a0c10;--ink-2:#11151c;--paper:#ece8dc;--mut:#8b919c;--line:rgba(255,255,255,.12);border:1px solid var(--line)}
+html[data-theme=dark] section.light{--ink:#ece8dc;--paper:#11151c;--mut-d:#8b919c;--line-d:rgba(255,255,255,.14);--acc-d:#ff5a36}
+html[data-theme=dark] .mi:hover{background:rgba(255,255,255,.05)}
+html[data-theme=light]{--ink:#f6f3ea;--ink-2:#ebe6d6;--paper:#0a0c10;--mut:#5f5e56;--line:rgba(10,12,16,.16);color-scheme:light}
+html[data-theme=light] :is(#intro,nav,#mmenu,#top,.status,.contact,section.light){--ink:#0a0c10;--ink-2:#11151c;--paper:#ece8dc;--mut:#8b919c;--line:rgba(255,255,255,.12)}
 html[data-theme=light] section.light{background:var(--paper-2)}
-html[data-theme=light] .btn.p,html[data-theme=light] .chip2:hover{color:#0A0C10}
+html[data-theme=light] .btn.p,html[data-theme=light] .chip2:hover{color:#0a0c10}
 html[data-theme=light] .btn.p:hover{color:var(--ink)}
-html[data-theme=light] .exp li strong{background:linear-gradient(transparent 62%,rgba(111,138,0,.28) 0)}
-html[data-theme=light] .status i{background:var(--acc-d)}
 
 @media(max-width:900px){
   #top{display:none}
@@ -345,8 +350,8 @@ html[data-theme=light] .status i{background:var(--acc-d)}
   .cur,.hud.br{display:none}
   .hud,.chip,.pl small{font-size:11px}
   .stack{left:6vw;font-size:8.6vw}
-  #chartWrap{top:72%}
-  #chartLbl2{top:auto;bottom:-2.8em}
+  #chartWrap{left:50%;bottom:-2vh;width:124vw;height:auto;aspect-ratio:307/400}
+  #chartLbl{left:50%;right:auto;top:-9%;transform:translateX(-50%)}
   .outl{font-size:min(40px,11vw)}
   .ewrap,.dwrap{left:6vw}
   .pl span{font-size:3.6vw;padding:.3em .5em;white-space:nowrap}
@@ -377,9 +382,8 @@ html[data-theme=light] .status i{background:var(--acc-d)}
 
   <div class="sc" id="scB">
     <div id="chartWrap">
-      <span class="chip" id="chartLbl">Series · conversion_rate / 15 points</span>
-      <span class="chip" id="chartLbl2">+25%</span>
-      <svg id="chart" viewBox="0 0 1000 420"></svg>
+      <span class="chip" id="chartLbl">Vector · kukuh.svg / 47 points</span>
+      <svg id="chart" viewBox="-20 0 307 400" aria-hidden="true"></svg>
     </div>
   </div>
 
@@ -444,9 +448,7 @@ html[data-theme=light] .status i{background:var(--acc-d)}
     </div>
     <div class="photo">
       <span class="corner a"></span><span class="corner b"></span>
-      <!-- Portrait: dark = engraving lime on midnight, light = engraving ink on bone -->
-      <img class="portrait-dark" src="assets/images/banner/eng_dark.png" alt="Kukuh Haryobismoko">
-      <img class="portrait-light" src="assets/images/banner/eng_light.png" alt="Kukuh Haryobismoko" style="display:none">
+      <img src="assets/images/banner/Gemini_Generated_Image_8gdhpf8gdhpf8gdh.png" alt="Kukuh Haryobismoko">
       <div class="status mono"><i></i><span data-id="Terbuka untuk peran baru">Open to new roles</span></div>
     </div>
   </div>
@@ -473,7 +475,7 @@ html[data-theme=light] .status i{background:var(--acc-d)}
         <div class="rule"></div>
         <div class="exp-top mono"><span class="now" data-id="Apr 2024 — Sekarang">Apr 2024 — Present</span><span>Jakarta, Indonesia</span></div>
         <h3><img src="assets/images/team/sayakaya.png" alt="">SayaKaya <span style="font-size:.55em;opacity:.65;white-space:nowrap">(Sucor Group)</span></h3>
-        <div class="rl">Data Analyst — APERD Platform · Business Intelligence, Customer Analytics & Data Platform</div>
+        <div class="rl">Data Analyst — APERD Platform · Business Intelligence, Customer Analytics &amp; Data Platform</div>
         <div class="proj rv">
           <div class="proj-h mono"><b data-id="Proyek unggulan">Featured project</b><span data-id="Jun 2026 — Sekarang · dibangun sendiri">Jun 2026 — Present · Solo build</span></div>
           <h4>SayaKaya Analytics — full web platform</h4>
@@ -486,7 +488,7 @@ html[data-theme=light] .status i{background:var(--acc-d)}
           <dl class="proj-g">
             <div><dt data-id="Fungsi">What it does</dt><dd data-id="54 tab dalam 8 grup: tren AUM dan revenue, portofolio investor yang dicek silang dari beberapa sumber data independen, pencarian transaksi, rekonsiliasi dengan kustodian, pelacakan referral dan event booth, funnel produk, analisis KYC dan subscription, serta kesehatan notifikasi push dan aplikasi. Ekspor ke CSV, Excel, PDF, dan Google Sheets.">54 tabs in 8 groups: AUM and revenue trends, investor portfolios cross-checked across independent data sources, transaction search, custodian reconciliation, referral and booth-event tracking, product funnel, KYC and subscription analysis, push and app health. Exports to CSV, Excel, PDF and Google Sheets.</dd></div>
             <div><dt data-id="Otomasi">Automation</dt><dd data-id="Email e-statement dan performa reksa dana terjadwal lewat Amazon SES dan cron GitHub Actions, dengan konfirmasi OTP, pelacakan buka/klik, dan tab rekap email.">Scheduled e-statement and fund-performance emails via Amazon SES and a GitHub Actions cron, with OTP confirmation, open/click tracking and an email-recap tab.</dd></div>
-            <div><dt data-id="AI & peramalan">AI & forecasting</dt><dd data-id="Fitur Ask mengubah pertanyaan bahasa sehari-hari menjadi SQL read-only lewat Claude lalu memilih grafiknya. BigQuery ML memprediksi AUM dan volume transaksi (ARIMA_PLUS) serta menilai risiko churn (regresi logistik). AI Insights menjalankan ringkasan mingguan, pemindaian anomali, daftar aksi churn, dan cek kualitas data.">The Ask assistant turns plain-language questions into read-only SQL with Claude and picks the chart. BigQuery ML forecasts AUM and transaction volume (ARIMA_PLUS) and scores churn risk (logistic regression). AI Insights runs a weekly summary, anomaly scan, churn action list and data-quality check.</dd></div>
+            <div><dt data-id="AI &amp; peramalan">AI &amp; forecasting</dt><dd data-id="Fitur Ask mengubah pertanyaan bahasa sehari-hari menjadi SQL read-only lewat Claude lalu memilih grafiknya. BigQuery ML memprediksi AUM dan volume transaksi (ARIMA_PLUS) serta menilai risiko churn (regresi logistik). AI Insights menjalankan ringkasan mingguan, pemindaian anomali, daftar aksi churn, dan cek kualitas data.">The Ask assistant turns plain-language questions into read-only SQL with Claude and picks the chart. BigQuery ML forecasts AUM and transaction volume (ARIMA_PLUS) and scores churn risk (logistic regression). AI Insights runs a weekly summary, anomaly scan, churn action list and data-quality check.</dd></div>
             <div><dt data-id="Arsitektur">Architecture</dt><dd data-id="Front-end HTML/CSS/JS murni dengan Chart.js tanpa langkah build, di GitHub Pages. API Node.js/Express dimigrasikan ke Supabase Edge Function (Deno/TypeScript) dengan SQL identik. BigQuery menyimpan data; Supabase Postgres menyimpan akun, sesi, jadwal, dan log. Tes otomatis merender setiap tab dengan data contoh.">Plain HTML/CSS/JS front end with Chart.js, no build step, on GitHub Pages. Node.js/Express API ported to a Supabase Edge Function (Deno/TypeScript) with identical SQL. BigQuery holds the data; Supabase Postgres holds accounts, sessions, schedules and logs. Automated tests render every tab with sample data.</dd></div>
             <div><dt data-id="Pengamanan">Guardrails</dt><dd data-id="Hak akses tab per akun, kata sandi di-hash, sesi 7 hari, kolom sensitif disaring dari setiap hasil, SQL read-only satu statement untuk SQL lab dan Ask, batas byte BigQuery per query, dan log aktivitas.">Per-account tab permissions, hashed passwords, 7-day sessions, sensitive columns stripped from every result, single-statement read-only SQL for SQL lab and Ask, a per-query BigQuery byte cap and an activity log.</dd></div>
           </dl>
@@ -509,7 +511,7 @@ html[data-theme=light] .status i{background:var(--acc-d)}
         <div class="rule"></div>
         <div class="exp-top mono"><span>Jun 2025 — Feb 2026</span><span data-id="Jarak jauh">Remote</span></div>
         <h3><img src="assets/images/team/revou.webp" alt="">RevoU — Edutech</h3>
-        <div class="rl">Team Lead — Mentorship & Project Delivery</div>
+        <div class="rl">Team Lead — Mentorship &amp; Project Delivery</div>
         <ul>
           <li data-id="Membimbing 15+ peserta lewat proyek kasus dan review SQL/Python, meningkatkan hasil bagi peserta yang kesulitan dengan analitik terapan.">Guided 15+ participants through SQL/Python case projects and reviews, improving outcomes for learners struggling with applied analytics.</li>
           <li data-id="Menerapkan pelacakan milestone dan ritme umpan balik, mempercepat penyelesaian kohort dengan visibilitas progres yang konsisten.">Implemented milestone tracking and feedback cadences, accelerating cohort completion with consistent progress visibility.</li>
@@ -521,7 +523,7 @@ html[data-theme=light] .status i{background:var(--acc-d)}
         <div class="rule"></div>
         <div class="exp-top mono"><span data-id="Jan 2024 — Mei 2024">Jan 2024 — May 2024</span><span data-id="Jarak jauh">Remote</span></div>
         <h3><img src="assets/images/team/revou.webp" alt="">RevoU — Edutech</h3>
-        <div class="rl">Data Analyst Associate (Intern) — Marketing & Customer Analytics</div>
+        <div class="rl">Data Analyst Associate (Intern) — Marketing &amp; Customer Analytics</div>
         <ul>
           <li data-id="Profiling dan clustering perilaku, <strong>memperluas segmen loyalis 32%</strong>.">Profiling and behavioural clustering, <strong>expanding loyalist segments by 32%</strong>.</li>
           <li data-id="Membangun model propensity Python dengan <strong>akurasi 80%+</strong> memakai fitur RFM, menemukan 25% lebih banyak pengguna berpotensi tinggi.">Built an <strong>80%+ accuracy</strong> Python propensity model with RFM features, uncovering 25% more high-potential users.</li>
@@ -663,14 +665,14 @@ html[data-theme=light] .status i{background:var(--acc-d)}
 <!-- SKILLS -->
 <section id="skills">
   <div class="eyebrow mono rv"><b>04</b> <span data-id="Keahlian">Skills</span></div>
-  <h2 class="h2 rv"><span class="m"><span data-id="Alat &">Tools &</span></span><span class="m"><span data-id="keahlian<b>.</b>">expertise<b>.</b></span></span></h2>
+  <h2 class="h2 rv"><span class="m"><span data-id="Alat &amp;">Tools &amp;</span></span><span class="m"><span data-id="keahlian<b>.</b>">expertise<b>.</b></span></span></h2>
   <div class="sk">
     <div class="sg rv"><h3><span class="gt" data-id="Inti">Core</span><span data-count></span></h3><div class="chips">
-      <span class="chip2">SQL</span><span class="chip2">Python</span><span class="chip2">Google BigQuery</span><span class="chip2">Tableau</span><span class="chip2">Power BI</span><span class="chip2">Looker</span><span class="chip2">Metabase</span><span class="chip2">Google Analytics</span><span class="chip2">ETL pipelines</span><span class="chip2">Funnel analysis</span><span class="chip2">Segmentation & RFM</span></div></div>
-    <div class="sg rv"><h3><span class="gt" data-id="Platform data & biaya">Data platform & cost</span><span data-count></span></h3><div class="chips">
-      <span class="chip2 n">BigQuery partitioning & clustering</span><span class="chip2 n">Query cost optimization</span><span class="chip2 n">Scheduled queries</span><span class="chip2 n">Connected Sheets</span><span class="chip2 n">Supabase / Postgres</span><span class="chip2 n">Node.js</span><span class="chip2 n">Claude API & AI-assisted analytics</span><span class="chip2 n">Data reconciliation</span></div></div>
+      <span class="chip2">SQL</span><span class="chip2">Python</span><span class="chip2">Google BigQuery</span><span class="chip2">Tableau</span><span class="chip2">Power BI</span><span class="chip2">Looker</span><span class="chip2">Metabase</span><span class="chip2">Google Analytics</span><span class="chip2">ETL pipelines</span><span class="chip2">Funnel analysis</span><span class="chip2">Segmentation &amp; RFM</span></div></div>
+    <div class="sg rv"><h3><span class="gt" data-id="Platform data &amp; biaya">Data platform &amp; cost</span><span data-count></span></h3><div class="chips">
+      <span class="chip2 n">BigQuery partitioning &amp; clustering</span><span class="chip2 n">Query cost optimization</span><span class="chip2 n">Scheduled queries</span><span class="chip2 n">Connected Sheets</span><span class="chip2 n">Supabase / Postgres</span><span class="chip2 n">Node.js</span><span class="chip2 n">Claude API &amp; AI-assisted analytics</span><span class="chip2 n">Data reconciliation</span></div></div>
     <div class="sg rv"><h3><span class="gt" data-id="Metode analitik">Analytics methods</span><span data-count></span></h3><div class="chips">
-      <span class="chip2" data-id="Analisis eksploratif">Exploratory analysis</span><span class="chip2">Cohort analysis</span><span class="chip2" data-id="Uji hipotesis">Hypothesis testing</span><span class="chip2">A/B testing</span><span class="chip2">Propensity modelling</span><span class="chip2">Dashboarding</span><span class="chip2">Clustering & classification</span></div></div>
+      <span class="chip2" data-id="Analisis eksploratif">Exploratory analysis</span><span class="chip2">Cohort analysis</span><span class="chip2" data-id="Uji hipotesis">Hypothesis testing</span><span class="chip2">A/B testing</span><span class="chip2">Propensity modelling</span><span class="chip2">Dashboarding</span><span class="chip2">Clustering &amp; classification</span></div></div>
     <div class="sg rv"><h3><span class="gt" data-id="Soft skill">Soft skills</span><span data-count></span></h3><div class="chips">
       <span class="chip2" data-id="Wawasan bisnis">Business acumen</span><span class="chip2" data-id="Ketelitian">Attention to detail</span><span class="chip2" data-id="Berpikir kritis">Critical thinking</span><span class="chip2" data-id="Kerja sama tim">Teamwork</span><span class="chip2" data-id="Pemecahan masalah">Problem-solving</span><span class="chip2" data-id="Komunikasi">Communication</span><span class="chip2" data-id="Presentasi">Presentation</span></div></div>
   </div>
@@ -749,18 +751,14 @@ function setLang(l){
   $('#themeBtn').setAttribute('aria-label',l==='id'?'Ganti tema':'Switch theme');
   phrases=P[l];pi=ci=0;del=false;$('#typed').textContent='';
 }
-function setTheme(t){
-  root.dataset.theme=t;try{localStorage.setItem('theme',t)}catch(e){}
-  // swap hero portrait
-  $$('.portrait-dark').forEach(img=>img.style.display=t==='dark'?'block':'none');
-  $$('.portrait-light').forEach(img=>img.style.display=t==='light'?'block':'none');
-}
+function setTheme(t){root.dataset.theme=t;try{localStorage.setItem('theme',t)}catch(e){}}
 $$('.seg button').forEach(b=>b.onclick=()=>setLang(b.dataset.l));
 $('#themeBtn').onclick=()=>setTheme(root.dataset.theme==='light'?'dark':'light');
 setLang(root.lang==='id'?'id':'en');
 
 let started=false;
 function ready(){if(started)return;started=true;document.body.classList.add('ready');setTimeout(typeLoop,700)}
+
 
 /* ---------- intro ---------- */
 if(!root.classList.contains('intro-on')){ready();return}
@@ -783,10 +781,10 @@ function stack(lines,cls){const s=$('#stack');s.className='stack '+(cls||'');
 function scramble(el,final,ms){const ch='ABCDEFGHIJKLMNOPQRSTUVWXYZ',st=performance.now();
   (function f(t){const k=Math.min(1,(t-st)/ms);el.textContent=final.split('').map((c,i)=>i<final.length*k?c:ch[Math.random()*26|0]).join('');if(k<1&&!finished)requestAnimationFrame(f)})(st)}
 
-// chart
-const pts=[[0,370],[70,340],[140,355],[210,300],[280,310],[350,250],[420,262],[490,205],[560,222],[630,155],[700,175],[770,112],[840,98],[920,55],[1000,30]];
-const d='M'+pts.map(p=>p.join(',')).join(' L');
-$('#chart').innerHTML=`<path class="ar" d="${d} L1000,420 L0,420 Z"/><path class="ln" pathLength="1" d="${d}"/>`+pts.map((p,i)=>`<rect x="${p[0]-7}" y="${p[1]-7}" width="14" height="14" style="transition-delay:${i*90+300}ms"/>`).join('');
+// silhouette traced from the portrait (person mask -> smoothed path + hair/eye shapes)
+const SIL={"d":"M13.8,399.5 C13.7,381.7 13.0,316.0 13.3,292.5 C13.6,269.0 15.2,269.0 15.6,258.5 C16.0,248.0 15.1,237.5 15.5,229.5 C15.9,221.5 17.1,215.2 17.9,210.5 C18.6,205.8 18.9,204.6 20.0,201.0 C21.1,197.4 22.5,193.3 24.3,189.0 C26.1,184.7 29.0,178.4 30.8,175.0 C32.6,171.6 33.5,170.4 35.1,168.5 C36.7,166.6 33.7,167.1 40.5,163.5 C47.3,159.9 68.8,149.8 76.0,146.7 C83.2,143.6 79.7,145.4 84.0,145.0 C88.3,144.6 98.5,144.7 102.0,144.4 C105.5,144.1 104.2,143.9 105.0,143.4 C105.8,142.9 106.5,142.4 106.9,141.5 C107.3,140.6 107.8,140.2 107.2,138.0 C106.6,135.8 104.3,132.2 103.3,128.5 C102.3,124.8 102.3,120.3 101.0,116.0 C99.7,111.7 96.7,106.2 95.3,102.5 C93.9,98.8 93.5,98.5 92.8,93.5 C92.1,88.5 92.1,80.6 91.2,72.5 C90.3,64.4 88.2,50.7 87.6,45.0 C87.0,39.3 87.5,40.4 87.8,38.5 C88.1,36.6 88.5,35.1 89.2,33.5 C89.9,31.9 90.8,30.4 91.8,29.0 C92.8,27.6 94.2,26.3 95.5,25.2 C96.8,24.1 97.5,23.4 99.8,22.5 C102.0,21.6 104.5,20.6 109.0,20.1 C113.5,19.7 119.8,19.8 127.0,19.8 C134.2,19.8 147.2,19.9 152.5,20.1 C157.8,20.4 156.6,20.7 158.5,21.3 C160.4,21.9 161.7,22.3 163.7,23.5 C165.7,24.7 168.0,26.3 170.5,28.7 C173.0,31.1 176.2,34.7 178.5,37.7 C180.8,40.7 182.8,43.6 184.5,46.5 C186.2,49.4 187.6,52.6 188.5,55.0 C189.4,57.4 189.6,58.9 189.9,61.0 C190.2,63.1 190.8,63.6 190.2,67.5 C189.6,71.4 187.4,77.4 186.4,84.5 C185.4,91.6 185.3,103.2 184.3,110.0 C183.3,116.8 182.1,120.8 180.5,125.5 C178.9,130.2 175.6,135.8 174.5,138.5 C173.4,141.2 173.9,141.0 174.0,142.0 C174.1,143.0 174.5,143.6 175.0,144.3 C175.5,145.0 175.3,145.3 177.0,146.3 C178.7,147.3 182.5,149.3 185.0,150.2 C187.5,151.1 187.9,151.2 192.0,151.8 C196.1,152.4 205.4,153.3 209.5,154.0 C213.6,154.7 214.3,155.0 216.5,156.2 C218.7,157.3 220.9,159.0 222.5,160.9 C224.1,162.8 225.0,164.4 226.0,167.5 C227.0,170.6 227.0,174.2 228.5,179.5 C230.0,184.8 233.2,192.5 235.1,199.0 C237.0,205.5 237.7,207.9 240.0,218.5 C242.3,229.1 246.7,249.6 248.9,262.5 C251.1,275.4 252.4,288.7 253.2,296.0 C254.0,303.3 253.6,289.2 253.7,306.5 C253.8,323.8 253.8,384.0 253.8,399.5","e":["M264.5,399.5 C264.4,382.1 265.0,317.9 264.2,295.0 C263.4,272.1 261.2,270.6 259.9,262.0 C258.6,253.4 258.3,252.0 256.6,243.5 C254.9,235.0 251.5,219.2 249.6,211.0 C247.7,202.8 247.0,200.3 245.2,194.5 C243.4,188.7 240.3,181.2 238.8,176.0 C237.3,170.8 237.7,166.8 236.4,163.0 C235.1,159.2 233.4,156.2 231.1,153.5 C228.8,150.8 225.4,148.4 222.5,146.7 C219.6,145.0 218.3,144.5 213.5,143.5 C208.7,142.5 197.3,141.5 193.5,140.8 C189.7,140.2 191.2,140.1 190.5,139.6 C189.8,139.1 189.5,138.8 189.3,138.0 C189.1,137.2 188.2,139.2 189.2,135.0 C190.1,130.8 193.7,120.8 195.0,112.5 C196.3,104.2 196.3,91.8 197.2,85.5 C198.1,79.2 199.7,77.7 200.4,74.5 C201.1,71.3 201.3,69.1 201.4,66.5 C201.5,63.9 201.2,61.3 200.9,59.0 C200.6,56.7 200.9,56.0 199.4,52.5 C197.9,49.0 195.6,43.1 192.2,38.0 C188.8,32.9 182.9,25.7 179.0,21.6 C175.1,17.5 172.0,15.4 168.5,13.4 C165.0,11.4 162.7,10.4 158.0,9.7 C153.3,9.0 148.4,9.1 140.5,9.0 C132.6,8.9 117.1,8.9 110.5,9.1 C103.9,9.3 104.3,9.2 101.0,10.2 C97.7,11.2 93.6,12.8 90.5,14.9 C87.4,17.0 84.5,20.0 82.3,23.0 C80.1,26.0 78.5,29.4 77.5,33.0 C76.5,36.6 75.9,37.4 76.4,44.5 C76.9,51.6 79.7,67.2 80.6,75.5 C81.5,83.8 81.1,89.3 81.8,94.5 C82.5,99.7 83.5,102.4 85.0,106.5 C86.5,110.6 89.4,115.5 90.5,119.0 C91.6,122.5 91.4,125.4 91.5,127.5 C91.6,129.6 91.5,130.5 91.0,131.5 C90.5,132.5 90.5,133.0 88.2,133.5 C86.0,134.0 80.4,134.2 77.5,134.7 C74.6,135.2 77.3,133.9 71.0,136.7 C64.7,139.5 45.8,148.2 39.5,151.3 C33.2,154.4 35.0,153.7 33.0,155.2 C31.0,156.7 29.2,158.2 27.5,160.2 C25.8,162.2 25.2,161.9 22.6,167.0 C20.0,172.1 14.4,184.2 11.9,190.5 C9.4,196.8 8.8,198.5 7.6,205.0 C6.4,211.5 5.0,220.8 4.6,229.5 C4.1,238.2 5.0,248.8 4.9,257.0 C4.8,265.2 4.2,273.0 3.8,279.0 C3.3,285.0 2.3,288.3 2.2,293.0 C2.1,297.7 2.9,289.2 3.0,307.0 C3.1,324.8 3.0,384.1 3.0,399.5","M277.5,399.5 C277.5,382.3 278.2,319.7 277.4,296.5 C276.6,273.3 274.2,269.6 272.9,260.5 C271.6,251.4 272.0,252.9 269.6,242.0 C267.2,231.1 261.8,206.4 258.8,195.0 C255.8,183.6 253.4,179.3 251.8,173.5 C250.2,167.7 250.2,163.6 249.2,160.0 C248.2,156.4 247.5,154.8 245.9,152.0 C244.3,149.2 242.0,146.0 239.7,143.5 C237.3,141.0 234.8,138.9 231.8,137.0 C228.9,135.1 225.8,133.6 222.0,132.3 C218.2,131.0 211.6,130.2 209.0,129.2 C206.4,128.2 206.3,130.4 206.3,126.5 C206.3,122.5 208.4,111.9 209.1,105.5 C209.8,99.1 209.5,92.8 210.2,88.0 C210.9,83.2 212.5,80.2 213.2,77.0 C213.9,73.8 214.2,72.2 214.3,69.0 C214.4,65.8 214.4,61.6 213.9,58.0 C213.4,54.4 212.7,51.0 211.5,47.5 C210.3,44.0 208.7,40.7 206.7,37.0 C204.7,33.3 202.6,29.6 199.5,25.5 C196.4,21.4 191.7,15.9 188.4,12.5 C185.2,9.1 182.7,7.3 180.0,5.3 C177.3,3.3 174.8,1.8 172.0,0.5 C169.2,-0.8 166.5,-1.8 163.5,-2.5 C160.5,-3.2 157.8,-3.5 154.0,-3.8 C150.2,-4.0 148.0,-4.0 140.5,-4.0 C133.0,-4.0 116.2,-4.2 109.0,-3.9 C101.8,-3.6 100.2,-3.0 97.0,-2.3 C93.8,-1.6 92.3,-0.7 90.0,0.3 C87.7,1.3 85.5,2.6 83.4,4.0 C81.3,5.4 79.3,6.9 77.5,8.7 C75.7,10.4 73.8,12.4 72.3,14.5 C70.8,16.6 69.5,18.8 68.3,21.0 C67.1,23.2 66.0,25.8 65.3,28.0 C64.5,30.2 64.1,32.1 63.8,34.5 C63.4,36.9 62.6,35.4 63.2,42.5 C63.9,49.6 66.8,68.2 67.7,77.0 C68.6,85.8 67.6,88.9 68.7,95.5 C69.8,102.1 73.6,112.4 74.6,116.5 C75.6,120.6 75.0,119.0 74.6,120.0 C74.2,121.0 79.1,118.8 72.0,122.2 C64.9,125.6 40.2,136.4 32.0,140.5 C23.8,144.6 25.0,144.8 22.5,146.8 C20.0,148.8 18.7,150.3 16.9,152.5 C15.1,154.7 14.3,154.8 11.6,160.0 C8.9,165.2 3.3,177.0 0.5,183.9 C-2.3,190.8 -3.5,194.2 -5.0,201.5 C-6.5,208.8 -7.9,218.9 -8.4,228.0 C-8.9,237.1 -7.7,245.2 -8.1,256.0 C-8.5,266.8 -10.6,284.3 -10.9,293.0 C-11.2,301.7 -10.2,290.2 -10.0,308.0 C-9.8,325.8 -10.0,384.2 -10.0,399.5","M293.5,399.5 C293.5,382.2 294.2,319.1 293.4,295.5 C292.6,271.9 290.0,267.4 288.7,258.0 C287.4,248.6 287.7,250.2 285.3,239.0 C282.9,227.8 277.2,202.0 274.2,190.5 C271.2,179.0 269.1,175.8 267.5,170.0 C265.9,164.2 265.7,159.4 264.6,155.5 C263.5,151.6 262.6,149.5 261.1,146.5 C259.6,143.5 257.6,140.2 255.5,137.4 C253.4,134.6 251.2,132.0 248.4,129.5 C245.7,127.0 242.5,124.7 239.0,122.6 C235.5,120.5 229.8,118.2 227.5,116.8 C225.2,115.4 225.3,118.0 225.1,114.0 C224.8,110.0 225.3,98.5 226.0,92.5 C226.7,86.5 228.7,82.3 229.4,78.0 C230.1,73.7 230.4,70.7 230.4,66.5 C230.4,62.3 230.1,57.2 229.4,53.0 C228.7,48.8 227.8,45.2 226.2,41.0 C224.6,36.8 222.2,31.9 219.7,27.5 C217.2,23.1 214.6,19.0 211.2,14.5 C207.8,10.0 202.8,4.3 199.0,0.5 C195.2,-3.3 191.9,-5.9 188.5,-8.3 C185.1,-10.7 182.0,-12.5 178.5,-14.1 C175.0,-15.7 171.2,-17.1 167.5,-18.0 C163.8,-18.9 160.5,-19.5 156.0,-19.8 C151.5,-20.1 148.7,-20.0 140.5,-20.0 C132.3,-20.0 115.2,-20.3 107.0,-19.9 C98.8,-19.5 95.6,-18.4 91.5,-17.4 C87.4,-16.4 85.3,-15.2 82.5,-13.9 C79.7,-12.6 77.1,-11.0 74.5,-9.3 C71.9,-7.6 69.4,-5.6 67.1,-3.5 C64.8,-1.4 62.6,1.0 60.6,3.5 C58.6,6.0 56.8,8.7 55.2,11.5 C53.6,14.3 52.1,17.6 51.0,20.5 C49.9,23.4 49.1,25.9 48.5,29.0 C47.9,32.1 47.4,35.9 47.2,39.0 C47.0,42.1 46.7,41.1 47.4,47.5 C48.1,53.9 50.8,69.8 51.6,77.5 C52.4,85.2 51.9,89.0 52.4,94.0 C52.9,99.0 54.3,104.8 54.6,107.5 C54.9,110.2 55.1,109.4 54.3,110.5 C53.5,111.6 55.5,111.3 50.0,114.3 C44.5,117.3 27.8,124.5 21.0,128.3 C14.2,132.1 12.4,134.4 9.5,137.0 C6.6,139.6 5.4,141.1 3.5,143.6 C1.6,146.1 0.6,146.6 -2.2,152.0 C-5.1,157.4 -10.6,168.4 -13.6,176.0 C-16.6,183.6 -18.7,189.1 -20.5,197.5 C-22.3,205.9 -23.8,216.8 -24.4,226.5 C-25.0,236.2 -23.7,244.4 -24.1,255.5 C-24.5,266.6 -26.6,284.0 -26.9,293.0 C-27.2,302.0 -26.1,291.8 -26.0,309.5 C-25.9,327.2 -26.0,384.5 -26.0,399.5"],"p":[[13.3,292.5],[15.5,229.5],[20.0,201.0],[30.8,175.0],[40.5,163.5],[84.0,145.0],[105.0,143.4],[107.2,138.0],[101.0,116.0],[92.8,93.5],[87.6,45.0],[89.2,33.5],[95.5,25.2],[109.0,20.1],[152.5,20.1],[163.7,23.5],[178.5,37.7],[188.5,55.0],[190.2,67.5],[184.3,110.0],[174.5,138.5],[175.0,144.3],[185.0,150.2],[209.5,154.0],[222.5,160.9],[228.5,179.5],[240.0,218.5],[253.2,296.0]],"f":"M110,87.1 L108.5,87.1 L96,78 L93.8,59.5 L98.7,45.5 L104.4,37.5 L106.9,31 L109.8,27 L114,24.6 L120,22.3 L126,23.5 L133.7,29 L138,36.2 L143,38.1 L144.8,37 L145.5,34.5 L141,24 L141.4,23 L145.5,25.6 L155.5,28.3 L158,30.3 L160,33.5 L166,35.3 L171.5,39.8 L179,47.7 L183.2,49.5 L185.4,52.5 L187.6,59.5 L188.2,66 L186.8,74 L183,77.5 L181,77.5 L179,75.6 L175.1,67 L173.5,64.9 L156,58.5 L153,58.3 L147.9,61 L141,68.2 L131,75.5 L128.2,80.5 L124.5,83.7 L123,84.1 L121,83.5 L115.5,77.9 L111.5,76.9 L110,77.2 L109.3,79 L111.2,84 L111,86 L110,87.1Z M146.5,102.1 L142.5,101.5 L137,99.3 L133.5,96.7 L133,95.1 L134,94.4 L137.5,94.3 L145.5,96.1 L150.2,93.5 L151.2,92 L151,90.5 L149,89.2 L146,88.3 L137.5,88.5 L135.7,87 L137,85.1 L144,83.8 L154,85.4 L156.5,87 L156.5,88.5 L155,91 L154.5,95.5 L153.2,98 L151.5,100.1 L146.5,102.1Z M175,88.6 L173,88.9 L172.2,88 L172.4,87 L176,84.9 L178.5,84.5 L179.5,85 L179.5,86 L178.6,87 L175,88.6Z M174.5,99.1 L171.5,99 L169,97.7 L167.5,95.5 L167.8,94 L170.5,92.5 L175.6,95.5 L176.5,97.5 L174.5,99.1Z"};
+$('#chart').innerHTML=`<path class="ar" d="${SIL.d} Z"/><path class="fc" d="${SIL.f}"/>`+SIL.e.map((e,i)=>`<path class="ec" pathLength="1" d="${e}" style="transition-delay:${.5+i*.3}s"/>`).join('')+`<path class="ln" pathLength="1" d="${SIL.d}"/>`+SIL.p.map((p,i)=>`<rect x="${p[0]-2.5}" y="${p[1]-2.5}" width="5" height="5" style="transition-delay:${i*40+300}ms"/>`).join('');
+$('#chartLbl').textContent='Vector \u00b7 kukuh.svg / '+SIL.p.length+' points';
 
 function finish(){
   if(finished)return;finished=true;timers.forEach(clearTimeout);
@@ -808,14 +806,14 @@ at(1450,()=>{$('#helloC').remove();$('#helloDot').style.opacity=1;
   s.classList.add('on');cursor(r.right+16,r.bottom+10)});
 // B: chart draws
 at(2500,()=>{gone('#scA');$('#sel').classList.remove('on');on('#scB');$('#chart').classList.add('draw');cursor(innerWidth*.88,innerHeight*.3)});
-at(3000,()=>$$('#chart rect').forEach(r=>r.style.opacity=1));
-at(3900,()=>$('#chart').classList.add('fill'));
+at(2800,()=>$$('#chart rect').forEach(r=>r.style.opacity=1));
+at(4100,()=>{$('#chart').classList.add('fill');$('#chartLbl').classList.add('off');$$('#chart rect,#chart .ec').forEach(r=>{r.style.transitionDelay='0s';if(r.tagName==='rect')r.style.opacity=0})});
 // C: name over chart (difference blend), then role, then skills
-at(4200,()=>{on('#scC');stack(['Kukuh','Haryobismoko'])});
-at(5500,()=>{$('#stack').classList.add('leave')});
-at(5950,()=>stack(['Data','Analyst']));
-at(7000,()=>{$('#stack').classList.add('leave');gone('#scB')});
-at(7400,()=>{$('#scC').classList.add('plain');stack(['SQL<b>/</b>','Python','<b>&</b> BI<b>.</b>'])});
+at(4500,()=>{on('#scC');stack(['Kukuh','Haryobismoko'])});
+at(5800,()=>{$('#stack').classList.add('leave')});
+at(6250,()=>stack(['Data','Analyst']));
+at(7300,()=>{$('#stack').classList.add('leave');gone('#scB')});
+at(7700,()=>{$('#scC').classList.add('plain');stack(['SQL<b>/</b>','Python','<b>&amp;</b> BI<b>.</b>'])});
 // D: cream wipe, toggle
 at(8800,()=>{gone('#scC');$('#panel').classList.add('in');intro.classList.add('light');on('#scD');cursor(innerWidth*.6,innerHeight*.8)});
 at(9600,()=>{$('#outl').classList.add('in');cursorTo($('#tg'))});
