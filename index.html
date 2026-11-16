@@ -17,8 +17,8 @@
 <script>
 // Restore saved theme + language before first paint.
 try{const d=document.documentElement,t=localStorage.getItem('theme'),l=localStorage.getItem('lang');if(t==='light'||t==='dark')d.dataset.theme=t;if(l==='id'||l==='en')d.lang=l}catch(e){}
-// Intro plays once per tab session, never for reduced-motion users.
-try{if(!sessionStorage.getItem('introSeen')&&!matchMedia('(prefers-reduced-motion:reduce)').matches)document.documentElement.classList.add('intro-on')}catch(e){}
+// Intro plays on every load, except for reduced-motion users.
+try{if(!matchMedia('(prefers-reduced-motion:reduce)').matches)document.documentElement.classList.add('intro-on')}catch(e){}
 </script>
 <style>
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
@@ -340,6 +340,19 @@ html[data-theme=light] .btn.p:hover{color:var(--ink)}
   .mi{grid-template-columns:1fr 24px}.mi .cat{grid-column:1/-1}
   .hud.tr{display:none}.hud.bl{display:none}
 }
+@media(max-width:600px){
+  .cur,.hud.br{display:none}
+  .hud,.chip,.pl small{font-size:11px}
+  .stack{left:6vw;font-size:8.6vw}
+  #chartWrap{top:72%}
+  #chartLbl2{top:auto;bottom:-2.8em}
+  .outl{font-size:min(40px,11vw)}
+  .ewrap,.dwrap{left:6vw}
+  .pl span{font-size:3.6vw;padding:.3em .5em;white-space:nowrap}
+  .cn{width:4.5vw;margin:0 .6vw 1.4vw}
+  .skip{min-height:44px;padding:0 24px;bottom:max(3vh,env(safe-area-inset-bottom))}
+  .fsub .dash{display:none}.fsub b{display:block;margin-top:.6em}
+}
 @media(prefers-reduced-motion:reduce){
   *,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}
   .rv,.h2 .m>span,.name .m>span,.big-cta .m>span{opacity:1;transform:none}.rule{transform:none}
@@ -374,7 +387,7 @@ html[data-theme=light] .btn.p:hover{color:var(--ink)}
   <div class="sc" id="scF"><div class="fwrap">
     <h1 class="fname">Kukuh Haryobismoko<b>.</b></h1>
     <div class="frule"></div>
-    <div class="mono fsub">Data Analyst — <b>SQL · Python · BI · BigQuery</b></div>
+    <div class="mono fsub">Data Analyst<span class="dash"> — </span><b>SQL · Python · BI · BigQuery</b></div>
     <p class="ftag"><span id="tagT"></span><i class="caret"></i></p>
   </div></div>
 
@@ -678,7 +691,6 @@ html[data-theme=light] .btn.p:hover{color:var(--ink)}
 
 <footer class="mono">
   <span>&copy; 2026 Kukuh Haryobismoko</span>
-  <button id="replay" data-id="Putar ulang intro">Replay intro</button>
   <span><a href="https://www.facebook.com/crackrermail/" target="_blank" rel="noopener">Facebook</a></span>
 </footer>
 <button id="top" aria-label="Scroll to top">↑</button>
@@ -742,7 +754,6 @@ setLang(root.lang==='id'?'id':'en');
 let started=false;
 function ready(){if(started)return;started=true;document.body.classList.add('ready');setTimeout(typeLoop,700)}
 
-$('#replay').onclick=()=>{try{sessionStorage.removeItem('introSeen')}catch(e){}scrollTo(0,0);location.reload()};
 
 /* ---------- intro ---------- */
 if(!root.classList.contains('intro-on')){ready();return}
@@ -772,7 +783,6 @@ $('#chart').innerHTML=`<path class="ar" d="${d} L1000,420 L0,420 Z"/><path class
 
 function finish(){
   if(finished)return;finished=true;timers.forEach(clearTimeout);
-  try{sessionStorage.setItem('introSeen','1')}catch(e){}
   intro.classList.add('out');
   setTimeout(()=>{root.classList.remove('intro-on');intro.remove();ready()},950);
 }
