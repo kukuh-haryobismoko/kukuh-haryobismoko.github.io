@@ -67,17 +67,18 @@ html.intro-on{overflow:hidden}
 #chart .ln{stroke-width:1.5;transition:stroke-dashoffset 1.7s cubic-bezier(.6,0,.2,1)}
 #chart .ec{stroke-width:.8;opacity:.5;transition:stroke-dashoffset 1.6s cubic-bezier(.5,0,.2,1)}
 #chart.draw .ln,#chart.draw .ec{stroke-dashoffset:0}
-#chart .ar{fill:var(--acc);fill-opacity:.3;opacity:0;transition:opacity .7s}
+#chart .ar{fill:var(--paper);fill-opacity:.1;opacity:0;transition:opacity .7s}
 #chart.fill .ar{opacity:1}
-#chart .fc{fill:var(--ink);fill-rule:evenodd;opacity:0;transition:opacity .7s .15s}
+#chart .fc{fill:var(--acc);fill-opacity:.46;fill-rule:evenodd;opacity:0;transition:opacity .7s .15s}
 #chart.fill .fc{opacity:1}
-#chart.fill .ln{opacity:.55;transition:opacity .6s}
+#chart.fill .ln{opacity:1;transition:opacity .6s}
 #chart.fill rect{opacity:0;transition:opacity .6s}
-#chart.fill .ec{stroke:var(--acc);opacity:.28;transition:opacity .6s,stroke .6s}
+#chart.fill .ec{stroke:var(--acc);opacity:.16;transition:opacity .6s,stroke .6s}
 #chart rect{fill:var(--ink);stroke:var(--acc);stroke-width:1;opacity:0;transition:opacity .2s}
 #chartLbl{left:72%;top:9%;transition:opacity .5s}
 #chartLbl.off{opacity:0}
 #scC{color:var(--paper)}
+.stack.role{color:var(--paper)}
 #scC.plain{mix-blend-mode:normal;color:var(--paper)}
 .stack{position:absolute;left:8vw;top:50%;transform:translateY(-50%);font:900 clamp(40px,9.2vw,170px)/.92 var(--f-d);letter-spacing:-.045em;text-transform:uppercase}
 .stack.fig{left:50%;top:67%;transform:translate(-50%,-50%);text-align:center;white-space:nowrap}
@@ -815,7 +816,7 @@ at(4100,()=>{$('#chart').classList.add('fill');$('#chartLbl').classList.add('off
 // C: name over chart (difference blend), then role, then skills
 at(4500,()=>{on('#scC');$('#chart').classList.add('txt');stack(['Kukuh','Haryobismoko'],'fig')});
 at(5800,()=>{$('#stack').classList.add('leave')});
-at(6250,()=>stack(['Data','Analyst'],'fig'));
+at(6250,()=>stack(['Data','Analyst'],'fig role'));
 at(7300,()=>{$('#stack').classList.add('leave');gone('#scB')});
 at(7700,()=>{$('#scC').classList.add('plain');stack(['SQL<b>/</b>','Python','<b>&amp;</b> BI<b>.</b>'])});
 // D: cream wipe, toggle
