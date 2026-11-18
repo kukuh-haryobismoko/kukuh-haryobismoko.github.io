@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Kukuh Haryobismoko — Data Analyst Portfolio. SQL, Python, BigQuery, BI tools, segmentation, funnel diagnostics, automated reporting.">
+<meta name="description" content="Kukuh Haryobismoko — Data Analyst Portfolio. AI agents, SQL, Python, BigQuery, BI tools, segmentation, funnel diagnostics, automated reporting.">
 <meta name="keywords" content="Kukuh Haryobismoko, Data Analyst, Business Intelligence, Portfolio, SQL, Python, BigQuery, Tableau, Power BI, Metabase">
 <meta name="author" content="Kukuh Haryobismoko">
 <title>Kukuh Haryobismoko — Data Analyst</title>
@@ -306,6 +306,8 @@ section{position:relative;padding:clamp(80px,12vw,160px) var(--pad)}
 .chip2{font:700 clamp(16px,1.7vw,24px)/1 var(--f-d);letter-spacing:-.02em;text-transform:uppercase;border:1.5px solid var(--line);padding:12px 20px;border-radius:99px;transition:background .25s,color .25s,border-color .25s,transform .35s var(--ease)}
 .chip2:hover{background:var(--acc);border-color:var(--acc);color:var(--ink);transform:translateY(-3px) rotate(-1.5deg)}
 .chip2.n{border-color:var(--acc)}
+.chip2.ai{border-color:var(--blue)}.chip2.ai::before{content:"";display:inline-block;width:8px;height:8px;margin-right:10px;border-radius:50%;background:var(--blue);animation:aip 2s infinite}
+@keyframes aip{0%{box-shadow:0 0 0 0 rgba(77,107,255,.7)}100%{box-shadow:0 0 0 10px rgba(77,107,255,0)}}
 .certs{display:flex;flex-wrap:wrap;gap:28px 48px;margin-top:44px}
 .cert{display:flex;gap:10px;align-items:center;font:500 13px/1 var(--f-m);color:var(--mut)}
 .cert::before{content:"";width:8px;height:8px;background:var(--acc);border-radius:50%}
@@ -399,6 +401,25 @@ html[data-theme=light] .btn.p:hover{color:var(--ink)}
 .bar i{display:block;height:7px;border-radius:2px;width:0;transition:width 1.1s var(--ease) var(--d,0s)}
 .go .bar i{width:var(--w)}.b0{background:rgba(255,255,255,.22)}.b1{background:var(--acc)}
 .tfoot{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;padding:12px 24px;border-top:1px solid var(--line);color:var(--mut);font-size:10.5px}
+/* AI agent trace + scroll progress */
+#sprog{position:fixed;left:0;top:0;height:3px;width:100%;background:var(--acc);transform:scaleX(var(--p,0));transform-origin:left;z-index:400;pointer-events:none}
+#agent{padding-bottom:clamp(60px,8vw,120px)}
+.agq{display:flex;gap:8px;flex-wrap:wrap;padding:14px 18px;border-bottom:1px solid var(--line)}
+.agq button{font:500 12px/1.3 var(--f-m);color:var(--mut);background:none;border:1px solid var(--line);border-radius:99px;padding:12px 16px;cursor:pointer;text-align:left;transition:color .2s,background .2s,border-color .2s}
+.agq button:hover{color:var(--paper);border-color:var(--paper)}.agq button[aria-pressed=true]{color:#0a0c10;background:var(--acc);border-color:var(--acc)}
+#ag{padding:22px 24px;min-height:380px;font:400 13.5px/1.65 var(--f-m);display:flex;flex-direction:column;gap:12px}
+#ag .l{display:grid;grid-template-columns:78px minmax(0,1fr);gap:14px;animation:agin .45s var(--ease) both}
+@keyframes agin{from{opacity:0;transform:translateY(8px)}}
+#ag .tg{font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--mut);padding-top:3px}
+#ag .u{color:var(--paper);font-weight:500}#ag .u .tg{color:var(--acc)}
+#ag .t .tg{color:#8fa4ff}#ag .fn{color:#8fa4ff;font-weight:500}#ag .ar{color:var(--mut)}#ag .rs{color:#7fd1a8}
+#ag .g .tg{color:#febc2e}#ag .g{color:#febc2e}
+#ag .a{border-left:2px solid var(--acc);padding:2px 0 2px 14px;margin-left:-16px;grid-template-columns:78px minmax(0,1fr);font:400 14.5px/1.6 var(--f-b);color:var(--paper)}
+#ag .a .tg{color:var(--acc)}
+#ag .t.spin .rs{display:none}
+#ag .t.spin .tg::after{content:"";display:inline-block;width:8px;height:8px;margin-left:6px;border:1.5px solid #8fa4ff;border-top-color:transparent;border-radius:50%;animation:agspin .7s linear infinite}
+@keyframes agspin{to{transform:rotate(360deg)}}
+@media(max-width:900px){#ag .l{grid-template-columns:1fr;gap:2px}#ag .a{margin-left:0}#ag{padding:18px}}
 /* cursor readout + card spotlight */
 #xh{position:fixed;left:0;top:0;z-index:300;pointer-events:none;opacity:0;transition:opacity .3s}
 #xh.on{opacity:1}.intro-on #xh{display:none}
@@ -432,6 +453,7 @@ html[data-theme=light] .btn.p:hover{color:var(--ink)}
 </style>
 </head>
 <body>
+<i id="sprog" aria-hidden="true"></i>
 
 <!-- ================= INTRO (motion graphic) ================= -->
 <div id="intro" aria-hidden="true">
@@ -507,7 +529,7 @@ html[data-theme=light] .btn.p:hover{color:var(--ink)}
   <div class="hero-mid">
     <div>
       <div class="role"><span id="typed"></span><i class="caret"></i></div>
-      <p class="bio" data-id="Data Analyst di <em>layanan keuangan</em>, konsultasi, dan analitik sektor publik. <em>Segmentasi</em>, <em>diagnostik funnel</em>, <em>kontrol biaya BigQuery</em>, dan <em>pelaporan otomatis</em> untuk 300K+ pengguna.">Data Analyst across <em>financial services</em>, consulting and public-sector analytics. <em>Segmentation</em>, <em>funnel diagnostics</em>, <em>BigQuery cost control</em> and <em>automated reporting</em> for 300K+ users.</p>
+      <p class="bio" data-id="Data Analyst di <em>layanan keuangan</em>, konsultasi, dan analitik sektor publik. <em>Segmentasi</em>, <em>diagnostik funnel</em>, <em>kontrol biaya BigQuery</em>, dan <em>pelaporan otomatis</em> untuk 300K+ pengguna, kini dengan <em>AI agent</em> yang mempercepat analisis.">Data Analyst across <em>financial services</em>, consulting and public-sector analytics. <em>Segmentation</em>, <em>funnel diagnostics</em>, <em>BigQuery cost control</em> and <em>automated reporting</em> for 300K+ users, now accelerated by <em>AI agents</em>.</p>
       <div class="btns">
         <a class="btn p" href="https://drive.google.com/file/d/1HcK1W_vCeqg72Qwj6I2T2SHSQrdU6wIZ/view" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M12 16l-5-5h3V4h4v7h3l-5 5zm-7 2h14v2H5v-2z"/></svg><span data-id="Unduh resume">Download resume</span></a>
         <a class="btn g" href="#contact" data-id="Mari terhubung">Let's connect</a>
@@ -542,6 +564,26 @@ html[data-theme=light] .btn.p:hover{color:var(--ink)}
     </div>
     <div class="tgrid"><pre class="sql" id="sql" aria-label="SQL query"></pre><div class="res" id="res" aria-live="polite"></div></div>
     <div class="tfoot mono"><span id="cstat"></span><span data-id="Ilustratif: dari hasil nyata, bukan data mentah perusahaan.">Illustrative: from real outcomes, not raw company data.</span></div>
+  </div>
+</section>
+
+<!-- AI AGENT -->
+<section id="agent">
+  <div class="eyebrow mono rv"><b>AI</b> <span data-id="Agent bekerja">Agent at work</span></div>
+  <h2 class="h2 rv"><span class="m"><span data-id="Tanya">Ask the</span></span><span class="m"><span data-id="agent<b>.</b>">agent<b>.</b></span></span></h2>
+  <p class="desc rv" data-id="Pilih tugas, lihat agent merencanakan, memanggil alat, lalu menjawab. Manusia tetap memegang keputusan akhir.">Pick a task and watch an agent plan, call tools, and answer. A human keeps the final call.</p>
+  <div class="term rv" id="aterm">
+    <div class="tbar"><i></i><i></i><i></i>
+      <span class="mono" style="margin-left:14px;font-size:12px;color:var(--mut)">analyst-agent · claude + bigquery + mcp</span>
+      <button class="run" id="agRun"><span data-id="Ulangi">Replay</span> ▶</button>
+    </div>
+    <div class="agq" id="agq">
+      <button aria-pressed="true" data-id="Kenapa konversi turun?">Why did conversion dip?</button>
+      <button aria-pressed="false" data-id="Pangkas biaya query">Cut a query's cost</button>
+      <button aria-pressed="false" data-id="Susun laporan mingguan">Draft the weekly report</button>
+    </div>
+    <div id="ag" role="log" aria-live="polite" aria-label="Agent trace"></div>
+    <div class="tfoot mono"><span>agent.trace()</span><span data-id="Simulasi: angka ilustratif. Alur kerja sama dengan yang saya pakai bersama Claude API + BigQuery.">Simulated run: illustrative numbers. Same workflow I run with the Claude API + BigQuery.</span></div>
   </div>
 </section>
 
@@ -750,10 +792,12 @@ html[data-theme=light] .btn.p:hover{color:var(--ink)}
   <div class="eyebrow mono rv"><b>04</b> <span data-id="Keahlian">Skills</span></div>
   <h2 class="h2 rv"><span class="m"><span data-id="Alat &amp;">Tools &amp;</span></span><span class="m"><span data-id="keahlian<b>.</b>">expertise<b>.</b></span></span></h2>
   <div class="sk">
+    <div class="sg rv"><h3><span class="gt" data-id="AI &amp; agent">AI &amp; agents</span><span data-count></span></h3><div class="chips">
+      <span class="chip2 ai">Agentic workflows</span><span class="chip2 ai">Claude API</span><span class="chip2 ai">Claude Code</span><span class="chip2 ai">MCP (Model Context Protocol)</span><span class="chip2 ai">Tool use &amp; function calling</span><span class="chip2 ai">Text-to-SQL agents</span><span class="chip2 ai">Prompt engineering</span><span class="chip2 ai">RAG</span><span class="chip2 ai">LLM evaluation</span><span class="chip2 ai">Human-in-the-loop design</span></div></div>
     <div class="sg rv"><h3><span class="gt" data-id="Inti">Core</span><span data-count></span></h3><div class="chips">
       <span class="chip2">SQL</span><span class="chip2">Python</span><span class="chip2">Google BigQuery</span><span class="chip2">Tableau</span><span class="chip2">Power BI</span><span class="chip2">Looker</span><span class="chip2">Metabase</span><span class="chip2">Google Analytics</span><span class="chip2">ETL pipelines</span><span class="chip2">Funnel analysis</span><span class="chip2">Segmentation &amp; RFM</span></div></div>
     <div class="sg rv"><h3><span class="gt" data-id="Platform data &amp; biaya">Data platform &amp; cost</span><span data-count></span></h3><div class="chips">
-      <span class="chip2 n">BigQuery partitioning &amp; clustering</span><span class="chip2 n">Query cost optimization</span><span class="chip2 n">Scheduled queries</span><span class="chip2 n">Connected Sheets</span><span class="chip2 n">Supabase / Postgres</span><span class="chip2 n">Node.js</span><span class="chip2 n">Claude API &amp; AI-assisted analytics</span><span class="chip2 n">Data reconciliation</span></div></div>
+      <span class="chip2 n">BigQuery partitioning &amp; clustering</span><span class="chip2 n">Query cost optimization</span><span class="chip2 n">Scheduled queries</span><span class="chip2 n">Connected Sheets</span><span class="chip2 n">Supabase / Postgres</span><span class="chip2 n">Node.js</span><span class="chip2 n">Data reconciliation</span></div></div>
     <div class="sg rv"><h3><span class="gt" data-id="Metode analitik">Analytics methods</span><span data-count></span></h3><div class="chips">
       <span class="chip2" data-id="Analisis eksploratif">Exploratory analysis</span><span class="chip2">Cohort analysis</span><span class="chip2" data-id="Uji hipotesis">Hypothesis testing</span><span class="chip2">A/B testing</span><span class="chip2">Propensity modelling</span><span class="chip2">Dashboarding</span><span class="chip2">Clustering &amp; classification</span></div></div>
     <div class="sg rv"><h3><span class="gt" data-id="Soft skill">Soft skills</span><span data-count></span></h3><div class="chips">
@@ -791,7 +835,7 @@ const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
 const root=document.documentElement;
 
 /* ---------- site ---------- */
-$('#mq').innerHTML=('<span>SQL</span><span>Python</span><span>BigQuery</span><span>Looker</span><span>Metabase</span><span>Tableau</span><span>Power BI</span><span>Cohort analysis</span><span>A/B testing</span><span>RFM</span><span>ETL</span>').repeat(2);
+$('#mq').innerHTML=('<span>SQL</span><span>Python</span><span>BigQuery</span><span>Looker</span><span>Metabase</span><span>Tableau</span><span>Power BI</span><span>Cohort analysis</span><span>A/B testing</span><span>RFM</span><span>ETL</span><span>AI agents</span><span>Claude API</span><span>MCP</span><span>Text-to-SQL</span><span>RAG</span><span>Prompt engineering</span>').repeat(2);
 
 const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');io.unobserve(e.target)}}),{threshold:.12,rootMargin:'0px 0px -40px 0px'});
 $$('.rv,.rule').forEach(el=>io.observe(el));
@@ -858,8 +902,8 @@ $$('.fl').forEach(b=>b.onclick=()=>{
   $$('[data-cat]').forEach(c=>c.classList.toggle('hide',b.dataset.f!=='all'&&c.dataset.cat!==b.dataset.f));
 });
 
-const P={en:['Turning data into decisions.','SQL · Python · BigQuery · BI','Segmentation & funnel diagnostics','Cutting query cost, not corners.'],
-  id:['Mengubah data menjadi keputusan.','SQL · Python · BigQuery · BI','Segmentasi & diagnostik funnel','Memangkas biaya query, bukan kualitas.']};
+const P={en:['Turning data into decisions.','Building AI agents that query, reason & report.','Text-to-SQL · MCP tools · human in the loop.','Claude API × BigQuery × automation.','Agents do the grunt work. I own the judgment.','Cutting query cost, not corners.'],
+  id:['Mengubah data menjadi keputusan.','Membangun AI agent yang query, bernalar & melapor.','Text-to-SQL · alat MCP · manusia tetap di loop.','Claude API × BigQuery × otomasi.','Agent mengerjakan yang repetitif. Penilaian tetap saya.','Memangkas biaya query, bukan kualitas.']};
 let phrases=P.en,pi=0,ci=0,del=false;
 function typeLoop(){const el=$('#typed'),cur=phrases[pi];
   if(!del){el.textContent=cur.slice(0,++ci);if(ci===cur.length){del=true;return setTimeout(typeLoop,2200)}setTimeout(typeLoop,55+Math.random()*40)}
@@ -872,7 +916,7 @@ function setLang(l){
   $$('.seg button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.l===l));
   $$('[data-count]').forEach(e=>{e.textContent=e.closest('.sg').querySelectorAll('.chip2').length+(l==='id'?' item':' items')});
   $('#themeBtn').setAttribute('aria-label',l==='id'?'Ganti tema':'Switch theme');
-  phrases=P[l];pi=ci=0;del=false;$('#typed').textContent='';consLang();
+  phrases=P[l];pi=ci=0;del=false;$('#typed').textContent='';consLang();agLang();
 }
 function setTheme(t){root.dataset.theme=t;try{localStorage.setItem('theme',t)}catch(e){}}
 $$('.seg button').forEach(b=>b.onclick=()=>setLang(b.dataset.l));
@@ -907,8 +951,50 @@ $$('.case').forEach(c=>c.addEventListener('pointermove',e=>{const r=c.getBoundin
 $$('.fl').forEach(b=>b.dataset.n=$$('[data-cat]').filter(c=>b.dataset.f==='all'||c.dataset.cat===b.dataset.f).length);
 (function t(){$('#clk').textContent='Jakarta '+new Date().toLocaleTimeString('en-GB',{timeZone:'Asia/Jakarta',hour:'2-digit',minute:'2-digit'})+' WIB';setTimeout(t,15000)})();
 
+/* ---------- AI agent trace ---------- */
+var agReady=false;
+const AG=[
+{k:'funnel',q:['Why did onboarding conversion dip last week?','Kenapa konversi onboarding turun minggu lalu?'],s:[
+['p','Plan: funnel by step, split by device & channel, rank the drivers.','Rencana: funnel per langkah, pecah per device & kanal, urutkan pemicu.'],
+['t','→ 1.2 GB scanned · ~$0.008 · within budget','→ 1,2 GB dipindai · ~$0,008 · sesuai anggaran','bigquery.dry_run','events, last 14d'],
+['t','→ 8 steps × 2 weeks · 41K sessions','→ 8 langkah × 2 minggu · 41K sesi','bigquery.query','funnel_by_step'],
+['t','→ drop isolated to step 5 (KYC upload), mobile web','→ penurunan terisolasi di langkah 5 (unggah KYC), mobile web','python.segment','device × channel'],
+['o','Same pattern in paid and organic, so not a traffic-mix shift.','Pola sama di berbayar dan organik, jadi bukan pergeseran bauran trafik.'],
+['a','Step 5 completion fell 9.4 pts on mobile web only. Likely an upload regression after the last release. Next: verify the fix, A/B a lighter photo capture, re-measure in 48h.','Penyelesaian langkah 5 turun 9,4 poin hanya di mobile web. Kemungkinan regresi unggah setelah rilis terakhir. Berikutnya: verifikasi perbaikan, A/B pengambilan foto lebih ringan, ukur ulang 48 jam.']]},
+{k:'cost',q:['This dashboard query scans too much. Fix it.','Query dashboard ini terlalu mahal. Perbaiki.'],s:[
+['p','Plan: dry-run baseline, add partition filter, cluster, prove same result.','Rencana: dry-run baseline, tambah filter partisi, cluster, buktikan hasil sama.'],
+['t','→ 480 GB · ~$3.00 per refresh','→ 480 GB · ~$3,00 per refresh','bigquery.dry_run','dashboard_daily.sql'],
+['t','→ WHERE dt BETWEEN … · CLUSTER BY user_id','→ WHERE dt BETWEEN … · CLUSTER BY user_id','sql.rewrite','partition + cluster'],
+['t','→ 12 GB · ~$0.08 · −97.5%','→ 12 GB · ~$0,08 · −97,5%','bigquery.dry_run','dashboard_daily_v2.sql'],
+['t','→ 0 rows differ · results identical','→ 0 baris berbeda · hasil identik','bigquery.diff','v1 vs v2'],
+['a','Same numbers, 97.5% fewer bytes scanned. Safe to merge. Moved the refresh to a scheduled query instead of running on every dashboard open.','Angka sama, 97,5% lebih sedikit byte dipindai. Aman di-merge. Refresh dipindah ke scheduled query, bukan tiap dashboard dibuka.']]},
+{k:'report',q:["Draft Monday's KPI report for the team.",'Susun laporan KPI Senin untuk tim.'],s:[
+['p','Plan: pull KPIs, compare to last week, draft summary, ask a human before sending.','Rencana: tarik KPI, bandingkan minggu lalu, tulis ringkasan, minta persetujuan manusia sebelum kirim.'],
+['t','→ 6 KPIs · 2 anomalies flagged','→ 6 KPI · 2 anomali ditandai','bigquery.query','kpi_weekly'],
+['t','→ KPI tab refreshed','→ tab KPI diperbarui','sheets.update','Connected Sheets'],
+['t','→ draft ready (112 words)','→ draf siap (112 kata)','llm.summarize','tone=exec, max 120w'],
+['g','Waiting for human approval before sending to #analytics…','Menunggu persetujuan manusia sebelum kirim ke #analytics…'],
+['a','Report drafted and both anomalies explained. Nothing is sent without sign-off, and every step is logged.','Laporan tersusun dan kedua anomali dijelaskan. Tidak ada yang terkirim tanpa persetujuan, dan setiap langkah tercatat.']]}];
+let agI=0,agT=[],agSeen=false;const agEl=$('#ag');
+function agH(l,id,spin){const L={u:['you','kamu'],p:['plan','rencana'],t:['tool','alat'],o:['observe','amati'],g:['human','manusia'],a:['answer','jawab']}[l[0]][+id];
+  const b=l[0]==='t'?`<b class="fn">${l[3]}</b><span class="ar">(${esc(l[4])})</span> <span class="rs">${esc(l[+id+1])}</span>`:esc(l[+id+1]);
+  return `<div class="l ${l[0]}${spin?' spin':''}"><span class="tg">${L}</span><span>${b}</span></div>`}
+function agLines(n){const S=AG[n];return [['u',S.q[0],S.q[1]],...S.s]}
+function agRun(n,user){agT.forEach(clearTimeout);agT=[];agI=n;agSeen=agReady=true;agEl.innerHTML='';
+  $$('#agq button').forEach((b,i)=>b.setAttribute('aria-pressed',i===n));
+  if(user)track('agent_run',{query:AG[n].k});
+  let t=0;agLines(n).forEach((l,i)=>{if(i&&!reduce)t+=l[0]==='t'?1000:l[0]==='g'?1400:800;
+    agT.push(setTimeout(()=>{const sp=l[0]==='t'&&!reduce;agEl.insertAdjacentHTML('beforeend',agH(l,root.lang==='id',sp));
+      if(sp){const e=agEl.lastElementChild;agT.push(setTimeout(()=>e.classList.remove('spin'),750))}},t))})}
+function agLang(){if(!agReady)return;agT.forEach(clearTimeout);agEl.innerHTML=agLines(agI).map(l=>agH(l,root.lang==='id')).join('')}
+$$('#agq button').forEach((b,i)=>b.onclick=()=>agRun(i,true));
+$('#agRun').onclick=()=>agRun(agI,true);
+new IntersectionObserver((e,o)=>{if(e[0].isIntersecting){o.disconnect();agRun(0,false)}},{threshold:.12}).observe($('#aterm'));
+const sprog=$('#sprog');let spq=0;
+addEventListener('scroll',()=>{if(spq)return;spq=requestAnimationFrame(()=>{spq=0;const h=document.documentElement;sprog.style.setProperty('--p',h.scrollTop/Math.max(1,h.scrollHeight-innerHeight))})},{passive:true});
+
 /* ---------- command palette (Ctrl/Cmd + K) ---------- */
-const CMD=[['Run the numbers','Jalankan angkanya','#console'],['Experience','Pengalaman','#experience'],['Education','Pendidikan','#education'],['Portfolio','Portofolio','#portfolio'],['Skills','Keahlian','#skills'],['Contact','Kontak','#contact'],
+const CMD=[['Run the numbers','Jalankan angkanya','#console'],['Ask the agent','Tanya agent','#agent'],['Experience','Pengalaman','#experience'],['Education','Pendidikan','#education'],['Portfolio','Portofolio','#portfolio'],['Skills','Keahlian','#skills'],['Contact','Kontak','#contact'],
 ['Toggle light / dark','Ganti terang / gelap',()=>$('#themeBtn').click()],['Switch language EN / ID','Ganti bahasa EN / ID',()=>setLang(root.lang==='id'?'en':'id')],
 ['Download resume','Unduh resume',()=>{track('resume_download',{via:'palette'});open($('.btn.p').href,'_blank','noopener')}],['Email me','Kirim email',()=>location.href='mailto:bbkukuh@gmail.com'],
 ['LinkedIn','LinkedIn',()=>open('https://www.linkedin.com/in/kukuh-haryobismoko/','_blank','noopener')],['WhatsApp','WhatsApp',()=>open('https://api.whatsapp.com/send/?phone=6285879003927','_blank','noopener')]];
