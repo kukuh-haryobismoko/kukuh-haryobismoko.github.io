@@ -13,7 +13,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;800;900&family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-9X1M98077J"></script>
-<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-9X1M98077J');</script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-9X1M98077J');if(/^(localhost|127\.)/.test(location.hostname))window['ga-disable-G-9X1M98077J']=true;function track(n,p){try{gtag('event',n,p||{})}catch(e){}}</script>
 <script>
 // Restore saved theme + language before first paint.
 try{const d=document.documentElement,t=localStorage.getItem('theme'),l=localStorage.getItem('lang');if(t==='light'||t==='dark')d.dataset.theme=t;if(l==='id'||l==='en')d.lang=l}catch(e){}
@@ -910,15 +910,15 @@ $$('.fl').forEach(b=>b.dataset.n=$$('[data-cat]').filter(c=>b.dataset.f==='all'|
 /* ---------- command palette (Ctrl/Cmd + K) ---------- */
 const CMD=[['Run the numbers','Jalankan angkanya','#console'],['Experience','Pengalaman','#experience'],['Education','Pendidikan','#education'],['Portfolio','Portofolio','#portfolio'],['Skills','Keahlian','#skills'],['Contact','Kontak','#contact'],
 ['Toggle light / dark','Ganti terang / gelap',()=>$('#themeBtn').click()],['Switch language EN / ID','Ganti bahasa EN / ID',()=>setLang(root.lang==='id'?'en':'id')],
-['Download resume','Unduh resume',()=>open($('.btn.p').href,'_blank','noopener')],['Email me','Kirim email',()=>location.href='mailto:bbkukuh@gmail.com'],
+['Download resume','Unduh resume',()=>{track('resume_download',{via:'palette'});open($('.btn.p').href,'_blank','noopener')}],['Email me','Kirim email',()=>location.href='mailto:bbkukuh@gmail.com'],
 ['LinkedIn','LinkedIn',()=>open('https://www.linkedin.com/in/kukuh-haryobismoko/','_blank','noopener')],['WhatsApp','WhatsApp',()=>open('https://api.whatsapp.com/send/?phone=6285879003927','_blank','noopener')]];
 const cmd=$('#cmd'),cI=$('#cmdI'),cL=$('#cmdL');let sel=0,vis=[],prev;
 $('#cmdBtn').textContent=/Mac|iPhone|iPad/.test(navigator.platform)?'⌘K':'Ctrl K';
 function drawCmd(){const q=cI.value.toLowerCase(),id=root.lang==='id';vis=CMD.filter(c=>(c[0]+' '+c[1]).toLowerCase().includes(q));sel=Math.min(sel,Math.max(vis.length-1,0));
   cL.innerHTML=vis.map((c,i)=>`<li role="option" aria-selected="${i===sel}" data-i="${i}">${id?c[1]:c[0]}<small>${typeof c[2]==='string'?c[2]:'↵'}</small></li>`).join('')||'<li>—</li>';
   cI.placeholder=id?'Ketik perintah…':'Type a command…'}
-function pal(o){if(o&&root.classList.contains('intro-on'))return;cmd.hidden=!o;if(o){prev=document.activeElement;cI.value='';sel=0;drawCmd();cI.focus()}else if(prev)prev.focus()}
-function go(){const c=vis[sel];if(!c)return;pal(false);typeof c[2]==='string'?$(c[2]).scrollIntoView({behavior:reduce?'auto':'smooth'}):c[2]()}
+function pal(o){if(o&&root.classList.contains('intro-on'))return;cmd.hidden=!o;if(o){track('cmd_open');prev=document.activeElement;cI.value='';sel=0;drawCmd();cI.focus()}else if(prev)prev.focus()}
+function go(){const c=vis[sel];if(!c)return;track('cmd_run',{command:c[0]});pal(false);typeof c[2]==='string'?$(c[2]).scrollIntoView({behavior:reduce?'auto':'smooth'}):c[2]()}
 $('#cmdBtn').onclick=()=>pal(true);
 cmd.onclick=e=>{if(e.target===cmd)pal(false)};
 cI.oninput=()=>{sel=0;drawCmd()};
@@ -997,6 +997,42 @@ at(13300,()=>{$('#p2').classList.remove('act');$('#c2').classList.add('draw');$(
 at(14500,()=>{$('#cur').classList.remove('on');on('#scF');$('#panel').classList.add('up');intro.classList.remove('light')});
 at(15000,()=>typeInto($('#tagT'),root.lang==='id'?'Dari data menjadi keputusan.':'Turning data into decisions.',45));
 at(18200,finish);
+})();
+</script>
+<script>
+/* ---------- GA4 custom events (delegated; track() defined in <head>) ---------- */
+(function(){
+const root=document.documentElement,$=s=>document.querySelector(s);
+const sec=el=>{const x=el.closest('section,header,footer,nav,#mmenu,#intro');return x?x.id||x.tagName.toLowerCase():'page'};
+const txt=el=>(el.getAttribute('aria-label')||el.textContent).replace(/\s+/g,' ').trim().slice(0,80);
+document.addEventListener('click',e=>{
+  const t=e.target.closest('a,button');if(!t||t.id==='cmdBtn')return;
+  const p={section:sec(t),link_text:txt(t)};
+  if(t.matches('a[href]')){
+    const h=t.href;p.link_url=h;
+    if(t.matches('.btn.p')||/resume\.pdf/i.test(h))return track('resume_download',{...p,via:'button'});
+    if(t.matches('.case,.mi'))return track('project_open',{...p,project:txt(t.querySelector('h3,b')),category:t.dataset.cat,layout:t.matches('.case')?'card':'list'});
+    if(t.matches('.cl')||/^mailto:/.test(h))return track('contact_click',{...p,method:(t.querySelector('small')||t).textContent.trim()});
+    if(t.matches('.links a,#mmenu a,.brand'))return track('nav_click',{...p,target:t.getAttribute('href')});
+    if(t.closest('footer'))return track('social_click',p);
+    if(t.matches('.btn'))return track('cta_click',p);
+    if(t.host!==location.host)return track('outbound_click',p);
+  }
+  if(t.id==='skip')return track('intro_skip');
+  if(t.matches('.fl'))return track('portfolio_filter',{filter:t.dataset.f});
+  if(t.closest('.seg'))return track('language_change',{lang:t.dataset.l});
+  if(t.id==='themeBtn')return track('theme_toggle',{theme:root.dataset.theme});
+  if(t.matches('#tabs .tb,#run'))return track('sql_run',{query:($('#tabs [aria-pressed=true]')||t).textContent});
+  if(t.id==='top')return track('back_to_top');
+  track('ui_click',p);
+});
+/* scroll depth 25/50/75/100 */
+const done={};addEventListener('scroll',()=>{const d=document.documentElement,pc=Math.round((scrollY+innerHeight)/d.scrollHeight*100);
+  [25,50,75,100].forEach(m=>{if(pc>=m-(m===100?2:0)&&!done[m]){done[m]=1;track('scroll_depth',{percent:m})}})},{passive:true});
+/* section views (after intro) */
+function watch(){const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){io.unobserve(e.target);track('section_view',{section:e.target.id})}}),{threshold:.35});
+  document.querySelectorAll('header[id],section[id],footer[id]').forEach(el=>io.observe(el))}
+if(root.classList.contains('intro-on'))new MutationObserver((m,o)=>{if(!root.classList.contains('intro-on')){o.disconnect();watch()}}).observe(root,{attributes:true,attributeFilter:['class']});else watch();
 })();
 </script>
 </body>
