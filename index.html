@@ -336,18 +336,41 @@ footer button:hover{color:var(--ink);background:var(--paper)}
 .case{--acc:#f9d13c;--ink:#1b1126;--ink-2:#2a1a3a;--paper:#fdf6ee;--mut:#c3b6d1;--line:rgba(253,246,238,.14);border:1px solid var(--line)}
 html[data-theme=dark] section.light{--ink:#fdf6ee;--paper:#2a1a3a;--mut-d:#c3b6d1;--line-d:rgba(255,255,255,.14);--acc-d:#f9d13c}
 html[data-theme=dark] .mi:hover{background:rgba(255,255,255,.05)}
-html[data-theme=light]{--ink:#fdf6ee;--ink-2:#f7ebdc;--paper:#1b1126;--mut:#5c3f6f;--line:rgba(27,17,38,.16);--acc:#5c3f6f;color-scheme:light}
-html[data-theme=light] :is(#intro,nav,#mmenu,#top,.status,.contact,section.light){--ink:#1b1126;--ink-2:#2a1a3a;--paper:#fdf6ee;--mut:#c3b6d1;--line:rgba(253,246,238,.14)}
-html[data-theme=light] section.light{background:#f7ebdc}
-html[data-theme=light] #portfolio{background:#f9d13c}
-html[data-theme=light] nav{background:rgba(92,63,111,.96)}
-html[data-theme=light] :is(#sprog,#prog){background:#f9d13c}
+html[data-theme=light]{--ink:#f9d13c;--ink-2:#f1c423;--paper:#2a1a3a;--mut:#5c3f6f;--line:rgba(42,26,58,.2);--acc:#5c3f6f;color-scheme:light}
+html[data-theme=light] :is(#intro,#mmenu,#top,.status){--ink:#5c3f6f;--ink-2:#4a3159;--paper:#fdf6ee;--mut:#e3d9ee;--line:rgba(253,246,238,.18);--acc:#f9d13c}
+html[data-theme=light] section.light{background:none;--ink:#1b1126;--ink-2:#2a1a3a;--paper:#fdf6ee;--mut:#5c3f6f;--line:rgba(42,26,58,.22)}
+html[data-theme=light] nav{background:rgba(249,209,60,.94);border-bottom:1px solid var(--line)}
+html[data-theme=light] :is(.name,.h2){color:#5c3f6f}
+html[data-theme=light] .photo{border-radius:22px;box-shadow:0 0 0 10px #5c3f6f}
+html[data-theme=light] .stats{background:#5c3f6f;border:0;border-radius:24px;padding:0 clamp(16px,2.4vw,32px);margin-bottom:clamp(20px,3vw,40px);color:#fdf6ee;--mut:#e3d9ee;--line:rgba(253,246,238,.2);--acc:#f9d13c}
+html[data-theme=light] :is(#agent,#skills,.contact){margin:clamp(8px,1.6vw,22px) clamp(10px,1.8vw,26px);border-radius:clamp(24px,3.4vw,48px)}
+html[data-theme=light] #skills{background:#5c3f6f;--ink:#5c3f6f;--paper:#fdf6ee;--mut:#efe7f6;--line:rgba(253,246,238,.3);--acc:#f9d13c;color:#fdf6ee}
+html[data-theme=light] #skills .h2{color:#fdf6ee}
+html[data-theme=light] #agent{background:#5c3f6f;--ink:#5c3f6f;--paper:#fdf6ee;--mut:#e3d9ee;--line:rgba(253,246,238,.22);--acc:#f9d13c;color:#fdf6ee}
+html[data-theme=light] #agent .h2{color:#fdf6ee}
+html[data-theme=light] #agent .term{--ink:#3b2749;--ink-2:#2f1e3b}
+html[data-theme=light] .contact{background:#5c3f6f;--ink:#fdf6ee;--paper:#5c3f6f;--acc:#5c3f6f;--mut:#e3d9ee}
+html[data-theme=light] .contact .big-cta{color:#f9d13c}
+html[data-theme=light] #sprog{background:#5c3f6f}
+html[data-theme=light] #top{background:#f9d13c;color:#5c3f6f;border-color:#5c3f6f}
+html[data-theme=light] .story dt{color:#fdf6ee;opacity:.9}
+html[data-theme=light] #top{box-shadow:0 0 0 3px #5c3f6f}
+html[data-theme=light] .edu-c{background:#5c3f6f;color:#fdf6ee;--paper:#fdf6ee;--mut:#e3d9ee;--acc:#f9d13c;padding:clamp(22px,2.6vw,38px);border-radius:28px}
+html[data-theme=light] .case,html[data-theme=light] .term{border-radius:24px}
+html[data-theme=light] .edu{gap:clamp(12px,2vw,24px)}
+html[data-theme=light] :is(.case,.term,.cmd-box,.edu-c,#agent,.stats){--mut:#efe7f6}
+html[data-theme=light] .chip2{background:transparent;color:#fdf6ee;border-color:rgba(253,246,238,.55)}
+html[data-theme=light] .chip2:hover{background:#f9d13c;color:#5c3f6f;border-color:#f9d13c}
+html[data-theme=light] .chip2.ai{background:#fdf6ee;color:#5c3f6f;border-color:#fdf6ee}
+html[data-theme=light] .chip2.ai:hover{background:#f9d13c;color:#5c3f6f;border-color:#f9d13c}
+html[data-theme=light] .chip2.ai::before{background:#5c3f6f}
+html[data-theme=light] .chip2.ai:hover::before{background:#5c3f6f}
+
+html[data-theme=light] #xh span{text-shadow:0 0 4px #f9d13c,0 0 8px #f9d13c}
 .b0{background:rgba(253,246,238,.38)!important}
 .contact{padding-bottom:clamp(110px,14vw,170px)}
 html[data-theme=light] :is(.case,.term,.cmd-box){--ink:#5c3f6f;--ink-2:#4a3159;--mut:#e3d9ee;--line:rgba(253,246,238,.22)}
 html[data-theme=light] .case .cat,html[data-theme=light] .light .case .cat{color:#f9d13c}
-html[data-theme=light] :is(#intro,nav,#mmenu,#top,.status,.contact){--acc:#f9d13c}
-html[data-theme=light] #xh span{text-shadow:0 0 4px #fdf6ee,0 0 8px #fdf6ee}
 html[data-theme=light] .exp li strong{background:linear-gradient(transparent 62%,rgba(92,63,111,.2) 0)}
 html[data-theme=light] .btn.p:hover{color:var(--ink)}
 
@@ -939,7 +962,7 @@ setLang(root.lang==='id'?'id':'en');
   function size(){W=h.clientWidth;H=h.clientHeight;c.width=W*dpr;c.height=H*dpr;g.setTransform(dpr,0,0,dpr,0,0);if(reduce)draw(0)}
   function draw(t){const LT=root.dataset.theme==='light';if(vis&&!root.classList.contains('intro-on')){g.clearRect(0,0,W,H);
     for(let y=0;y<H;y+=S)for(let x=0;x<W;x+=S){const w=.5+.5*Math.sin(x*.011+t*.0007)*Math.sin(y*.013-t*.0005),p=Math.max(0,1-Math.hypot(x-mx,y-my)/190),a=.03+w*w*.12+p*p*.5;
-      g.fillStyle=(x/S+y/S)%11===0?`rgba(142,99,196,${a+.1})`:LT?`rgba(92,63,111,${a})`:`rgba(249,209,60,${a})`;g.fillRect(x,y,S-G,S-G)}}
+      g.fillStyle=(x/S+y/S)%11===0?`rgba(142,99,196,${a+.1})`:LT?`rgba(92,63,111,${a*.55})`:`rgba(249,209,60,${a})`;g.fillRect(x,y,S-G,S-G)}}
     if(!reduce)requestAnimationFrame(draw)}
   new ResizeObserver(size).observe(h);size();
   h.addEventListener('pointermove',e=>{const r=h.getBoundingClientRect();mx=e.clientX-r.left;my=e.clientY-r.top});
