@@ -356,7 +356,7 @@ html[data-theme=light] #intro .skip,html[data-theme=light] #intro.light .skip{co
 html[data-theme=light] #intro .skip:hover{color:#1b1126;background:#f9d13c}
 html[data-theme=light] .seg button[aria-pressed=true]{background:#5c3f6f;color:#fdf6ee}
 html[data-theme=light] :is(.seg,.kbd,.ib){border-color:rgba(42,26,58,.55)}
-html[data-theme=light] #heat{opacity:.4}
+html[data-theme=light] #heat{opacity:1}
 html[data-theme=light] .bio,html[data-theme=light] .sub,html[data-theme=light] .desc{font-weight:500;color:#2a1a3a}
 html[data-theme=light] :is(#agent,.stats,.case,.edu-c,#skills) :is(.bio,.sub,.desc){color:#fdf6ee}
 html[data-theme=light] .exp li,html[data-theme=light] .exp p{color:#1b1126}
@@ -972,8 +972,9 @@ setLang(root.lang==='id'?'id':'en');
   let W,H,mx=-999,my=-999,vis=true;
   function size(){W=h.clientWidth;H=h.clientHeight;c.width=W*dpr;c.height=H*dpr;g.setTransform(dpr,0,0,dpr,0,0);if(reduce)draw(0)}
   function draw(t){const LT=root.dataset.theme==='light';if(vis&&!root.classList.contains('intro-on')){g.clearRect(0,0,W,H);
-    for(let y=0;y<H;y+=S)for(let x=0;x<W;x+=S){const w=.5+.5*Math.sin(x*.011+t*.0007)*Math.sin(y*.013-t*.0005),p=Math.max(0,1-Math.hypot(x-mx,y-my)/190),a=.03+w*w*.12+p*p*.5;
-      g.fillStyle=(x/S+y/S)%11===0?`rgba(142,99,196,${a+.1})`:LT?`rgba(92,63,111,${a*.55})`:`rgba(249,209,60,${a})`;g.fillRect(x,y,S-G,S-G)}}
+    for(let y=0;y<H;y+=S)for(let x=0;x<W;x+=S){const w=.5+.5*Math.sin(x*.011+t*.0007)*Math.sin(y*.013-t*.0005),p=Math.max(0,1-Math.hypot(x-mx,y-my)/(LT?240:190)),a=.03+w*w*.12+p*p*.5;
+      if(LT){g.fillStyle=`rgba(92,63,111,${(a-p*p*.5)*.3})`;g.fillRect(x,y,S-G,S-G);if(p>.02){g.fillStyle=p>.55?`rgba(92,63,111,${Math.min(1,(p-.4)*2)})`:`rgba(253,246,238,${Math.min(1,p*2.2)})`;g.fillRect(x,y,S-G,S-G);g.strokeStyle=`rgba(42,26,58,${Math.min(1,p*2.4)})`;g.lineWidth=2;g.strokeRect(x+1,y+1,S-G-2,S-G-2)}}
+      else{g.fillStyle=(x/S+y/S)%11===0?`rgba(142,99,196,${a+.1})`:`rgba(249,209,60,${a})`;g.fillRect(x,y,S-G,S-G)}}}
     if(!reduce)requestAnimationFrame(draw)}
   new ResizeObserver(size).observe(h);size();
   h.addEventListener('pointermove',e=>{const r=h.getBoundingClientRect();mx=e.clientX-r.left;my=e.clientY-r.top});
